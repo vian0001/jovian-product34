@@ -1,0 +1,1341 @@
+
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menggunakan Address List dan Filter Aplikasi Layer di MikroTik</title>
+    <style>
+
+/* Styling untuk container gambar */
+
+.image-container {
+  margin: 30px 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.4s ease;
+  max-width: 100%;
+  position: relative;
+}
+
+.image-container:hover {
+  transform: scale(1.02);
+  box-shadow: 0 15px 40px rgba(37, 99, 235, 0.4);
+}
+
+.image-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: all 0.4s ease;
+}
+
+.image-container:hover img {
+  filter: brightness(1.1);
+}
+
+.image-caption {
+  background: linear-gradient(to top, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.7), transparent);
+  padding: 15px 20px;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.image-container:hover .image-caption {
+  transform: translateY(0);
+}
+
+@keyframes loadProgress { 0% { width: 0%; } 100% { width: 100%; } }
+@keyframes fadeOut { to { opacity: 0; visibility: hidden; } }
+{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+
+
+    /* Portfolio Button Styling */
+
+.portfolio-button {
+position: fixed;
+bottom: 30px;
+right: 30px;
+z-index: 1000;
+background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+color: var(--text-primary);
+border: none;
+border-radius: 50px;
+padding: 15px 25px;
+font-family: 'Inter', sans-serif;
+font-weight: 600;
+font-size: 1rem;
+cursor: pointer;
+box-shadow: 0 5px 20px rgba(37, 99, 235, 0.4);
+transition: all 0.3s ease;
+display: flex;
+align-items: center;
+gap: 10px;
+overflow: hidden;
+text-decoration: none;
+}
+.portfolio-button:hover {
+transform: translateY(-5px) scale(1.05);
+box-shadow: 0 8px 25px rgba(37, 99, 235, 0.6);
+}
+.portfolio-button::before {
+content: '';
+position: absolute;
+top: 0;
+left: -100%;
+width: 100%;
+height: 100%;
+background: linear-gradient(90deg,
+transparent,
+rgba(255, 255, 255, 0.2),
+transparent);
+animation: shineEffect 3s infinite;
+}
+.portfolio-icon {
+font-size: 1.2rem;
+animation: pulse 2s infinite;
+}
+@keyframes shineEffect {
+0% { left: -100%; }
+20% { left: 100%; }
+100% { left: 100%; }
+}
+@keyframes pulse {
+0% { transform: scale(1); }
+50% { transform: scale(1.2); }
+100% { transform: scale(1); }
+}
+.attention-ripple {
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+width: 100%;
+height: 100%;
+border-radius: 50px;
+border: 2px solid var(--accent-color);
+animation: ripple 2s infinite;
+opacity: 0;
+}
+@keyframes ripple {
+0% {
+width: 100%;
+height: 100%;
+opacity: 0.8;
+}
+100% {
+width: 200%;
+height: 200%;
+opacity: 0;
+}
+}
+{
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+:root {
+    --primary-color: #2563eb;
+    --secondary-color: #1e40af;
+    --accent-color: #06b6d4;
+    --success-color: #059669;
+    --warning-color: #d97706;
+    --danger-color: #dc2626;
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --bg-card: #334155;
+    --bg-light: #f8fafc;
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    --border-color: #475569;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Tech Background Pattern */
+.tech-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -3;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(37, 99, 235, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(6, 182, 212, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(220, 38, 38, 0.08) 0%, transparent 50%);
+}
+
+.circuit-pattern {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    opacity: 0.03;
+    background-image: 
+        linear-gradient(90deg, var(--primary-color) 1px, transparent 1px),
+        linear-gradient(var(--primary-color) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: circuitMove 20s linear infinite;
+}
+
+@keyframes circuitMove {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+}
+
+/* Floating particles */
+.tech-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: float linear infinite;
+}
+
+@keyframes float {
+    0% { 
+        transform: translateY(100vh) translateX(0px);
+        opacity: 0;
+    }
+    10% { 
+        opacity: 0.6;
+    }
+    90% { 
+        opacity: 0.6;
+    }
+    100% { 
+        transform: translateY(-100px) translateX(100px);
+        opacity: 0;
+    }
+}
+
+/* Header */
+.header {
+    text-align: center;
+    padding: 100px 20px 80px;
+    background: linear-gradient(135deg, 
+        rgba(37, 99, 235, 0.1) 0%, 
+        rgba(6, 182, 212, 0.1) 50%, 
+        rgba(5, 150, 105, 0.1) 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(37, 99, 235, 0.1),
+        transparent
+    );
+    animation: headerScan 10s linear infinite;
+}
+
+@keyframes headerScan {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+.main-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color), var(--success-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 20px;
+    text-shadow: 0 0 50px rgba(37, 99, 235, 0.3);
+    animation: titleGlow 4s ease-in-out infinite alternate;
+    position: relative;
+}
+
+@keyframes titleGlow {
+    0% { filter: brightness(1); }
+    100% { filter: brightness(1.2); }
+}
+
+.subtitle {
+    font-size: 1.3rem;
+    color: var(--text-secondary);
+    margin-bottom: 40px;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+.author-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 600px;
+    margin: 0 auto;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    animation: cardFloat 6s ease-in-out infinite alternate;
+}
+
+@keyframes cardFloat {
+    0% { transform: translateY(0px); }
+    100% { transform: translateY(-10px); }
+}
+
+.card-header {
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--accent-color);
+    margin-bottom: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.author-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    text-align: left;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.info-label {
+    font-weight: 600;
+    color: var(--primary-color);
+    min-width: 80px;
+    margin-right: 15px;
+}
+
+.info-value {
+    color: var(--text-primary);
+    font-weight: 400;
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 20px;
+}
+
+/* Section styling */
+.section {
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.05) 0%, 
+        rgba(255, 255, 255, 0.02) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 40px;
+    margin: 40px 0;
+    position: relative;
+    backdrop-filter: blur(20px);
+    transition: all 0.4s ease;
+    animation: sectionSlide 0.8s ease-out;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.section:nth-child(even) {
+    animation: sectionSlideRight 0.8s ease-out;
+}
+
+@keyframes sectionSlide {
+    from { transform: translateX(-50px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes sectionSlideRight {
+    from { transform: translateX(50px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.section:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 12px 48px rgba(37, 99, 235, 0.2);
+    transform: translateY(-8px);
+}
+
+.section-title {
+    font-family: 'Inter', sans-serif;
+    color: var(--primary-color);
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 25px;
+    position: relative;
+    padding-left: 30px;
+}
+
+.section-title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 30px;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    border-radius: 2px;
+}
+
+/* Sub-section titles */
+.subsection-title {
+    font-family: 'Inter', sans-serif;
+    color: var(--accent-color);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    position: relative;
+    padding-left: 20px;
+}
+
+.subsection-title::before {
+    content: '—'; /* Simple dash or similar indicator */
+    position: absolute;
+    left: 0;
+    color: var(--accent-color);
+}
+
+/* Code blocks with typing effect */
+.code-terminal {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 25px;
+    margin: 25px 0;
+    font-family: 'JetBrains Mono', monospace;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.code-terminal::before {
+    content: '$ mikrotik@router:~';
+    color: var(--success-color);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.code-line {
+    color: var(--text-primary);
+    margin: 8px 0;
+    position: relative;
+    padding-left: 20px;
+    transition: all 0.3s ease;
+    opacity: 0;
+    width: fit-content;
+    font-family: 'JetBrains Mono', monospace;
+    white-space: pre;
+}
+
+.code-line.typing {
+    opacity: 1;
+    border-right: 2px solid var(--accent-color);
+    animation: blink-cursor 1s infinite;
+}
+
+.code-line.typed {
+    opacity: 1;
+    border-right: none;
+}
+
+@keyframes blink-cursor {
+    0%, 50% { border-color: var(--accent-color); }
+    51%, 100% { border-color: transparent; }
+}
+
+.code-line:hover {
+    background: rgba(37, 99, 235, 0.1);
+    padding-left: 25px;
+    border-radius: 6px;
+}
+
+.code-line::before {
+    content: '▶';
+    position: absolute;
+    left: 0;
+    color: var(--accent-color);
+    font-size: 0.8rem;
+}
+
+.comment {
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.string {
+    color: var(--warning-color);
+    font-weight: 400;
+}
+
+.keyword {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* Alert boxes */
+.tech-alert {
+    background: linear-gradient(135deg, 
+        rgba(37, 99, 235, 0.1), 
+        rgba(6, 182, 212, 0.1));
+    border: 1px solid var(--primary-color);
+    border-left: 4px solid var(--primary-color);
+    border-radius: 12px;
+    padding: 25px;
+    margin: 30px 0;
+    position: relative;
+    animation: alertPulse 3s ease-in-out infinite alternate;
+}
+
+@keyframes alertPulse {
+    0% { box-shadow: 0 0 20px rgba(37, 99, 235, 0.2); }
+    100% { box-shadow: 0 0 30px rgba(37, 99, 235, 0.4); }
+}
+
+.tech-alert::before {
+    content: '🔧 TEKNOLOGI INFO';
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    background: var(--bg-primary);
+    color: var(--primary-color);
+    padding: 5px 15px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 20px;
+    border: 1px solid var(--primary-color);
+}
+
+.security-alert {
+    background: linear-gradient(135deg, 
+        rgba(220, 38, 38, 0.1), 
+        rgba(217, 119, 6, 0.1));
+    border: 1px solid var(--danger-color);
+    border-left: 4px solid var(--danger-color);
+    border-radius: 12px;
+    padding: 25px;
+    margin: 30px 0;
+    position: relative;
+    animation: securityBlink 2s ease-in-out infinite alternate;
+}
+
+@keyframes securityBlink {
+    0% { border-left-color: var(--danger-color); }
+    100% { border-left-color: var(--warning-color); }
+}
+
+.security-alert::before {
+    content: '🛡 KEAMANAN';
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    background: var(--bg-primary);
+    color: var(--danger-color);
+    padding: 5px 15px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 20px;
+    border: 1px solid var(--danger-color);
+}
+
+.conclusion-box {
+    background: linear-gradient(135deg, 
+        rgba(5, 150, 105, 0.1), 
+        rgba(37, 99, 235, 0.1));
+    border: 1px solid var(--success-color);
+    border-left: 4px solid var(--success-color);
+    border-radius: 12px;
+    padding: 25px;
+    margin: 30px 0;
+    position: relative;
+    animation: conclusionGlow 4s ease-in-out infinite alternate;
+}
+
+@keyframes conclusionGlow {
+    0% { box-shadow: 0 0 20px rgba(5, 150, 105, 0.2); }
+    100% { box-shadow: 0 0 30px rgba(5, 150, 105, 0.4); }
+}
+
+.conclusion-box::before {
+    content: '📝 KESIMPULAN';
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    background: var(--bg-primary);
+    color: var(--success-color);
+    padding: 5px 15px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 20px;
+    border: 1px solid var(--success-color);
+}
+
+/* Bibliography */
+.bibliography {
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.08), 
+        rgba(255, 255, 255, 0.04));
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    padding: 40px;
+    margin-top: 60px;
+    backdrop-filter: blur(20px);
+    animation: biblioFade 1.5s ease-out;
+}
+
+@keyframes biblioFade {
+    from { opacity: 0; transform: translateY(50px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.bibliography h3 {
+    color: var(--accent-color);
+    font-family: 'Inter', sans-serif;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.bibliography ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.bibliography li {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 15px;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+    position: relative;
+    padding-left: 50px;
+}
+
+.bibliography li::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    font-size: 1.2rem;
+}
+
+.bibliography li:hover {
+    color: var(--text-primary);
+    transform: translateX(10px);
+    border-color: var(--primary-color);
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(6, 182, 212, 0.05));
+}
+
+.bibliography a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    word-break: break-all;
+}
+
+.bibliography a:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+/* Progress bar */
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color), var(--success-color));
+    z-index: 1000;
+    transition: width 0.3s ease;
+    box-shadow: 0 0 10px rgba(37, 99, 235, 0.5);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .main-title {
+        font-size: 2.5rem;
+    }
+    
+    .section {
+        padding: 25px 20px;
+        margin: 30px 0;
+    }
+    
+    .container {
+        padding: 40px 15px;
+    }
+
+    .code-terminal {
+        padding: 20px;
+        font-size: 0.9rem;
+    }
+
+    .author-info {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Smooth animations */
+.fade-in {
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+ 
+
+img, a {
+-webkit-user-drag: none;
+-khtml-user-drag: none;
+-moz-user-drag: none;
+-o-user-drag: none;
+user-drag: none;
+}
+
+</style>
+
+<!-- Portfolio Button -->
+<a href="https://jovian-portofolio02.vercel.app/" target="_blank" class="portfolio-button">
+    <span class="portfolio-icon">🚀</span>
+    Lihat Portfolio Saya
+    <div class="attention-ripple"></div>
+</a>
+<!-- Tech Background -->
+<div class="tech-bg"></div>
+<div class="circuit-pattern"></div>
+<div class="tech-particles" id="techParticles"></div>
+
+<!-- Header -->
+<div class="header">
+    <h1 class="main-title">MIKROTIK ROUTEROS</h1>
+    <div class="subtitle">Mengatur SSID dan Membuat Virtual AP</div>
+    <div class="subtitle">Konfigurasi jaringan nirkabel dengan multiple SSID</div>
+    
+    <div class="author-card">
+        <div class="card-header">Informasi Penulis</div>
+        <div class="author-info">
+            <div class="info-item">
+                <span class="info-label">Penulis:</span>
+                <span class="info-value">Jovian Ekasakta</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Guru:</span>
+                <span class="info-value">Arief Wahyudin</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Kelas:</span>
+                <span class="info-value">XI TJKT 03</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Sekolah:</span>
+                <span class="info-value">Dwija Bhakti 01 Jombang</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+       <div class="section fade-in">
+            <h2 class="section-title"># topologi yang digunakan</h2>
+
+
+
+                                                <div class="image-container">
+          <img src="topologi.png" alt="SERVICE IP pada MikroTik RouterOS">
+          <div class="image-caption">Tampilan topologi di gns3</div>
+        </div>
+
+        </div>
+
+<div class="container">
+    <!-- Section 1: Pengertian SSID -->
+    <div class="section fade-in">
+        <h2 class="section-title">1. PENGERTIAN SSID</h2>
+
+        
+                                                <div class="image-container">
+          <img src="picture (1).png" alt="SERVICE IP pada MikroTik RouterOS">
+          <div class="image-caption">Tampilan topologi di gns3</div>
+        </div>
+        
+        <p>Dari sumber MikroTik Documentation (2024), SSID (Service Set Identifier) adalah nama jaringan nirkabel yang digunakan untuk mengidentifikasi jaringan Wi-Fi. SSID merupakan parameter konfigurasi yang harus diatur pada interface wireless MikroTik agar access point dapat menyiarkan jaringan dan dapat ditemukan oleh perangkat klien. SSID dapat berupa kombinasi huruf, angka, dan simbol dengan panjang maksimal 32 karakter.</p>
+        
+        <p>Dari sumber NetworkWorld (2023), SSID berfungsi sebagai pengidentifikasi yang memungkinkan perangkat klien untuk membedakan antara beberapa jaringan nirkabel yang tersedia di area yang sama. Ketika pengguna memindai jaringan Wi-Fi yang tersedia, SSID adalah nama yang akan muncul dalam daftar jaringan tersebut, memudahkan pengguna untuk mengenali jaringan yang ingin diakses.</p>
+        
+        <h3 class="subsection-title">Konfigurasi SSID di MikroTik</h3>
+        
+        <div class="code-terminal">
+            <div class="code-line"><span class="keyword">/interface wireless</span> print</div>
+            <div class="code-line comment"># Menampilkan informasi semua interface wireless</div>
+            <div class="code-line">Flags: X - disabled, R - running </div>
+            <div class="code-line"> 0  X name="wlan1" mtu=1500 l2mtu=1600 mac-address=74:4D:28:XX:XX:XX arp=enabled</div>
+            <div class="code-line">   interface-type=Atheros AR9300 mode=ap-bridge ssid="MikroTik" frequency=2412</div>
+            <div class="code-line">   band=2ghz-b/g/n channel-width=20MHz security-profile=default</div>
+        </div>
+        
+        <p>Dari sumber MikroTik Wiki (2024), untuk mengatur SSID pada interface wireless MikroTik, gunakan perintah berikut:</p>
+        
+        <div class="code-terminal">
+            <div class="code-line"><span class="keyword">/interface wireless set</span> [find] <span class="string">ssid=NamaJaringanAnda</span> <span class="string">frequency=auto</span> <span class="string">disabled=no</span></div>
+            <div class="code-line comment"># Mengatur SSID, frekuensi otomatis, dan mengaktifkan interface wireless</div>
+        </div>
+        
+        <p>Dari sumber MikroTik Help (2024), untuk RouterOS versi 7 keatas, sintaks perintah sedikit berbeda:</p>
+        
+        <div class="code-terminal">
+            <div class="code-line"><span class="keyword">/interface wifi set</span> [find default-name=wifi1] <span class="string">configuration.mode=ap</span> <span class="string">configuration.country=Indonesia</span> <span class="string">ssid=MyNetwork</span> <span class="string">disabled=no</span></div>
+            <div class="code-line comment"># Konfigurasi SSID pada RouterOS v7</div>
+        </div>
+        
+        <div class="tech-alert">
+            <p>Pemilihan nama SSID yang tepat penting untuk kemudahan identifikasi jaringan. Namun, hindari penggunaan nama yang mengungkapkan informasi sensitif seperti alamat, nama perusahaan, atau identitas pribadi untuk alasan keamanan.</p>
+        </div>
+        
+        <div class="conclusion-box">
+            <strong>Dari 2 pendapat tersebut dapat disimpulkan bahwa</strong> SSID adalah nama identifikasi penting untuk jaringan wireless yang membantu pengguna membedakan jaringan Wi-Fi yang tersedia. Konfigurasi SSID di MikroTik dapat dilakukan dengan mudah melalui command line interface (CLI) menggunakan perintah yang sesuai dengan versi RouterOS yang digunakan.
+        </div>
+    </div>
+
+    <!-- Section 2: Keamanan Wireless -->
+    <div class="section fade-in">
+        <h2 class="section-title">2. KEAMANAN JARINGAN WIRELESS</h2>
+
+                
+                                                <div class="image-container">
+          <img src="no.png" alt="SERVICE IP pada MikroTik RouterOS">
+          <div class="image-caption">Tampilan topologi di gns3</div>
+        </div>
+        
+        <h3 class="subsection-title">Profil Keamanan</h3>
+        
+        <p>Dari sumber MikroTik Documentation (2024), sebelum mengatur SSID, penting untuk membuat profil keamanan yang akan digunakan untuk melindungi jaringan nirkabel. Profil keamanan berisi pengaturan otentikasi dan enkripsi yang akan diterapkan pada SSID. Berikut adalah langkah-langkah untuk membuat profil keamanan menggunakan CLI:</p>
+        
+        <div class="code-terminal">
+            <div class="code-line"><span class="keyword">/interface wireless security-profiles</span></div>
+            <div class="code-line"><span class="keyword">add</span> <span class="string">name=profil-utama</span> <span class="string">authentication-types=wpa2-psk</span> <span class="string">mode=dynamic-keys</span> <span class="string">wpa2-pre-shared-key=PasswordKuat123</span></div>
+            <div class="code-line comment"># Membuat profil keamanan dengan autentikasi WPA2-PSK</div>
+        </div>
+        
+        <p>Dari sumber RouterOS Manual (2023), MikroTik mendukung beberapa tipe autentikasi untuk keamanan jaringan wireless:</p>
+        
+        <div class="code-terminal">
+            <div class="code-line"><span class="keyword">authentication-types:</span></div>
+            <div class="code-line">- wpa-psk <span class="comment"># Kurang aman, kompatibel dengan perangkat lama</span></div>
+            <div class="code-line">- wpa2-psk <span class="comment"># Rekomendasi untuk keamanan dan kompatibilitas</span></div>
+            <div class="code-line">- wpa3-psk <span class="comment"># Tingkat keamanan tertinggi (perangkat baru)</span></div>
+            <div class="code-line">- wpa-eap, wpa2-eap <span class="comment"># Untuk otentikasi menggunakan RADIUS server</span></div>
+        </div>
+        
+        <p>Dari sumber MikroTik WiFi Documentation (2024), untuk RouterOS versi 7, pengaturan keamanan dapat dilakukan langsung pada interface wireless:</p>
+        
+        <div class="code-terminal">
+            <div class="code-line"><span class="keyword">/interface wifi set</span> [find default-name=wifi1] <span class="string">security.authentication-types=wpa2-psk</span> <span class="string">security.passphrase=PasswordKuat123</span></div>
+            <div class="code-line comment"># Menerapkan pengaturan keamanan langsung ke interface (RouterOS v7)</div>
+        </div>
+        
+        <div class="security-alert">
+            <p>Selalu gunakan kata sandi yang kuat dengan kombinasi huruf kapital, huruf kecil, angka, dan simbol. Kata sandi sebaiknya minimal 12 karakter untuk WPA2-PSK dan minimal 8 karakter untuk WPA3-PSK. Perbarui kata sandi secara berkala untuk meningkatkan keamanan jaringan.</p>
+        </div>
+        
+        <h3 class="subsection-title">Menyembunyikan SSID</h3>
+        
+        <p>Dari sumber NetworkWorld (2023), meskipun bukan metode keamanan utama, menyembunyikan SSID dapat memberikan lapisan keamanan tambahan dengan membuat jaringan tidak muncul pada daftar jaringan yang tersedia bagi perangkat klien biasa. Untuk menyembunyikan SSID:</p>
+        
+        <div class="code-terminal">
+            <div class="code-line"><span class="keyword">/interface wireless set</span> [find default-name=wifi1] <span class="string">hide-ssid=yes</span></div>
+            <div class="code-line comment"># Menyembunyikan SSID dari daftar jaringan yang terlihat</div>
+        </div>
+        
+        <p>Untuk RouterOS versi 7:</p>
+        
+        <div class="code-terminal">
+            <div class="code-line"><span class="keyword">/interface wifi set</span> [find default-name=wifi1] <span class="string">hide-ssid=yes</span></div>
+            <div class="code-line comment"># Menyembunyikan SSID di RouterOS v7</div>
+        </div>
+        
+        <div class="conclusion-box">
+            <strong>Dari 3 pendapat tersebut dapat disimpulkan bahwa</strong> keamanan jaringan wireless di MikroTik sangat penting dan harus dikonfigurasi dengan tepat menggunakan profil keamanan yang mendukung minimal WPA2-PSK. Penggunaan kata sandi yang kuat dan penyembunyian SSID adalah langkah-langkah yang dapat meningkatkan keamanan, meskipun penyembunyian SSID sendiri bukan merupakan metode keamanan yang andal jika tidak dikombinasikan dengan enkripsi yang kuat.
+        </div>
+    </div>
+
+    <!-- Section 3: Membuat Virtual AP -->
+    <div class="section fade-in">
+        <h2 class="section-title">3. MEMBUAT VIRTUAL AP</h2>
+
+                                                        <div class="image-container">
+          <img src="3.png" alt="SERVICE IP pada MikroTik RouterOS">
+          <div class="image-caption">Tampilan topologi di gns3</div>
+        </div>
+        
+        <h3 class="subsection-title">Pengertian Virtual AP</h3>
+        
+        <p>Dari sumber MikroTik Wiki (2024), Virtual AP (Virtual Access Point) adalah fitur di MikroTik RouterOS yang memungkinkan pembuatan beberapa SSID dalam satu interface wireless fisik. Hal ini memungkinkan satu perangkat MikroTik untuk menyiarkan beberapa jaringan wireless dengan nama dan pengaturan keamanan yang berbeda, tanpa memerlukan perangkat hardware tambahan.</p>
+        
+        <p>Dari sumber jcutrer.com (2020), Virtual AP memungkinkan administrator jaringan untuk membuat jaringan terpisah dengan tujuan berbeda, seperti jaringan tamu, jaringan untuk perangkat IoT, atau jaringan untuk karyawan, semua menggunakan satu perangkat fisik yang sama. Fitur ini sangat berguna untuk optimalisasi penggunaan perangkat dan memberikan fleksibilitas dalam pengelolaan jaringan.</p>
+        
+        <h3 class="subsection-title">Membuat Virtual AP Menggunakan CLI</h3>
+        
+        <p>Dari sumber MikroTik Documentation (2024), untuk membuat Virtual AP menggunakan Command Line Interface (CLI) pada RouterOS versi 6, gunakan perintah berikut:</p>
+        
+        <div class="code-terminal">
+            <div class="code-line"><span class="keyword">/interface wireless add</span> <span class="string">name=virtual-wifi</span> <span class="string">master-interface=wlan1</span> <span class="string">ssid=GuestNetwork</span> <span class="string">disabled=no</span></div>
+            <div class="code-line comment"># Membuat interface Virtual AP dengan SSID "GuestNetwork"</div>
+        </div>
+        
+        <p>Dari sumber MikroTik Help (2024), untuk RouterOS versi 7, sintaks perintah untuk membuat Virtual AP adalah:</p>
+        
+        <div class="code-terminal">
+            <div class="code-line"><span class="keyword">/interface wifi add</span> <span class="string">configuration.mode=ap</span> <span class="string">ssid=GuestNetwork</span> <span class="string">disabled=no</span> <span class="string">master-interface=wifi1</span> <span class="string">name=virtual-wifi</span></div>
+            <div class="code-line comment"># Membuat Virtual AP dengan RouterOS v7</div>
+        </div>
+        
+        <p>Untuk menambahkan pengaturan keamanan pada Virtual AP di RouterOS versi 7:</p>
+        
+        <div class="code-terminal">
+            <div class="code-line"><span class="keyword">/interface wifi add</span> <span class="string">configuration.mode=ap</span> <span class="string">ssid=GuestNetwork</span> <span class="string">disabled=no</span> <span class="string">master-interface=wifi1</span> <span class="string">name=virtual-wifi</span> <span class="string">security.authentication-types=wpa2-psk</span> <span class="string">security.passphrase=GuestPassword</span></div>
+            <div class="code-line comment"># Membuat Virtual AP dengan keamanan WPA2-PSK</div>
+        </div>
+        
+        <div class="tech-alert">
+            <p>Virtual AP hanya akan berfungsi jika interface master berada dalam mode ap-bridge (RouterOS v6) atau ap (RouterOS v7). Virtual AP akan selalu menggunakan frekuensi yang sama dengan interface master, sehingga Anda tidak perlu mengkonfigurasi pengaturan frekuensi pada Virtual AP.</p>
+        </div>
+        
+        <h3 class="subsection-title">Menghubungkan Virtual AP ke Bridge</h3>
+        
+        <p>Dari sumber jcutrer.com (2020), setelah membuat Virtual AP, langkah selanjutnya adalah menambahkannya ke bridge agar dapat berkomunikasi dengan jaringan lain:</p>
+        
+        <div class="code-terminal">
+            <div class="code-line"><span class="keyword">/interface bridge port add</span> <span class="string">bridge=bridge1</span> <span class="string">interface=virtual-wifi</span></div>
+            <div class="code-line comment"># Menambahkan Virtual AP ke bridge</div>
+        </div>
+        
+        <div class="conclusion-box">
+            <strong>Dari 2 pendapat tersebut dapat disimpulkan bahwa</strong> Virtual AP adalah solusi efisien untuk menyediakan beberapa jaringan wireless dengan SSID berbeda menggunakan satu perangkat MikroTik. Konfigurasi dapat dilakukan dengan mudah melalui CLI dengan perintah yang sesuai versi RouterOS, dan untuk mengaktifkan komunikasi dengan jaringan lain, Virtual AP perlu ditambahkan ke bridge.
+        </div>
+    </div>
+
+    <!-- Section 4: Mengisolasi Virtual AP -->
+    <div class="section fade-in">
+        <h2 class="section-title">4. MENGISOLASI VIRTUAL AP</h2>
+        
+        <h3 class="subsection-title">Tujuan Isolasi Jaringan</h3>
+        
+        <p>Dari sumber jcutrer.com (2020), mengisolasi Virtual AP sangat penting untuk jaringan seperti jaringan tamu, di mana pengguna tidak seharusnya memiliki akses ke jaringan utama atau perangkat lain di jaringan yang sama. Isolasi jaringan meningkatkan keamanan dengan membatasi akses pengguna hanya ke internet dan bukan ke sumber daya lokal.</p>
+        
+        <p>Dari sumber SystemZone (2021), ada dua pendekatan untuk mengisolasi Virtual AP: menggunakan bridge filter atau membuat bridge terpisah dengan subnet IP yang berbeda. Pendekatan kedua menawarkan isolasi yang lebih lengkap dan manajemen lalu lintas yang lebih baik, terutama untuk jaringan yang lebih kompleks.</p>
+        
+        <h3 class="subsection-title">Metode 1: Menggunakan Bridge Filter</h3>
+        
+        <p>Dari sumber fsudo.com (2024), MikroTik memiliki fitur AP Isolation yang dapat diaktifkan untuk mencegah komunikasi antar perangkat yang terhubung ke SSID yang sama. Untuk mengaktifkan AP Isolation melalui CLI:</p>
+        
+        <div class="code-terminal">
+            <div class="code-line"><span class="keyword">/interface wireless set</span> wlan1 <span class="string">isolate-ap=yes</span></div>
+            <div class="code-line comment"># Mengaktifkan AP Isolation pada interface wireless</div>
+        </div>
+        
+        <p>Dari sumber jcutrer.com (2020), untuk isolasi lebih lanjut antara jaringan utama dan jaringan tamu, dapat menggunakan bridge filter:</p>
+        
+        <div class="code-terminal">
+            <div class="code-line"><span class="keyword">/interface bridge filter</span></div>
+            <div class="code-line"><span class="keyword">add</span> <span class="string">action=drop</span> <span class="string">chain=forward</span> <span class="string">in-interface=virtual-wifi</span> <span class="string">out-interface=!virtual-wifi</span></div>
+            <div class="code-line comment"># Memblokir lalu lintas dari Virtual AP ke interface lain</div>
+        </div>
+        
+        <h3 class="subsection-title">Metode 2: Membuat Bridge Terpisah</h3>
+        
+        <p>Dari sumber SystemZone (2021), pendekatan yang lebih kuat adalah membuat bridge terpisah untuk Virtual AP dan mengkonfigurasi subnet IP yang berbeda:</p>
+        
+        <div class="code-terminal">
+            <div class="code-line"><span class="keyword">/interface bridge</span></div>
+            <div class="code-line"><span class="keyword">add</span> <span class="string">name=bridge-guest</span></div>
+            <div class="code-line comment"># Membuat bridge baru untuk jaringan tamu</div>
+            <div class="code-line"><span class="keyword">/interface bridge port</span></div>
+            <div class="code-line"><span class="keyword">add</span> <span class="string">bridge=bridge-guest</span> <span class="string">interface=virtual-wifi</span></div>
+            <div class="code-line comment"># Menambahkan interface Virtual AP ke bridge tamu</div>
+            <div class="code-line"><span class="keyword">/ip address</span></div>
+            <div class="code-line"><span class="keyword">add</span> <span class="string">address=192.168.10.1/24</span> <span class="string">interface=bridge-guest</span></div>
+            <div class="code-line comment"># Menambahkan alamat IP untuk bridge tamu</div>
+        </div>
+        
+        <p>Dari sumber jcutrer.com (2020), selanjutnya konfigurasikan DHCP server untuk jaringan tamu:</p>
+        
+        <div class="code-terminal">
+            <div class="code-line"><span class="keyword">/ip pool</span></div>
+            <div class="code-line"><span class="keyword">add</span> <span class="string">name=guest-pool</span> <span class="string">ranges=192.168.10.10-192.168.10.254</span></div>
+            <div class="code-line comment"># Membuat pool alamat IP untuk jaringan tamu</div>
+            <div class="code-line"><span class="keyword">/ip dhcp-server</span></div>
+            <div class="code-line"><span class="keyword">add</span> <span class="string">address-pool=guest-pool</span> <span class="string">interface=bridge-guest</span> <span class="string">name=dhcp-guest</span></div>
+            <div class="code-line comment"># Membuat DHCP server untuk jaringan tamu</div>
+            <div class="code-line"><span class="keyword">/ip dhcp-server network</span></div>
+            <div class="code-line"><span class="keyword">add</span> <span class="string">address=192.168.10.0/24</span> <span class="string">gateway=192.168.10.1</span> <span class="string">dns-server=8.8.8.8</span></div>
+            <div class="code-line comment"># Menambahkan konfigurasi jaringan untuk DHCP server</div>
+        </div>
+        
+        <h3 class="subsection-title">Menambahkan NAT dan Firewall Rules</h3>
+        
+        <p>Dari sumber SystemZone (2021), agar jaringan tamu dapat mengakses internet dan sekaligus dibatasi aksesnya ke jaringan lokal:</p>
+        
+        <div class="code-terminal">
+            <div class="code-line"><span class="keyword">/ip firewall nat</span></div>
+            <div class="code-line"><span class="keyword">add</span> <span class="string">chain=srcnat</span> <span class="string">src-address=192.168.10.0/24</span> <span class="string">action=masquerade</span></div>
+            <div class="code-line comment"># Mengizinkan akses internet untuk jaringan tamu</div>
+            <div class="code-line"><span class="keyword">/ip firewall filter</span></div>
+            <div class="code-line"><span class="keyword">add</span> <span class="string">chain=forward</span> <span class="string">src-address=192.168.10.0/24</span> <span class="string">dst-address=192.168.88.0/24</span> <span class="string">action=drop</span></div>
+            <div class="code-line comment"># Memblokir akses dari jaringan tamu ke jaringan utama</div>
+        </div>
+        
+        <div class="security-alert">
+            <p>Pastikan untuk selalu menambahkan aturan firewall yang membatasi akses pengguna tamu ke perangkat jaringan seperti router, printer, server, dan perangkat lain di jaringan lokal. Berikan akses internet saja, dan isolasi dari jaringan lokal untuk keamanan maksimal.</p>
+        </div>
+        
+        <div class="conclusion-box">
+            <strong>Dari 3 pendapat tersebut dapat disimpulkan bahwa</strong> isolasi Virtual AP sangat penting untuk keamanan jaringan, terutama untuk jaringan tamu. Ada beberapa metode yang dapat digunakan, dari isolasi sederhana menggunakan AP Isolation, bridge filter, hingga metode yang lebih komprehensif dengan membuat bridge terpisah, subnet IP berbeda, dan aturan firewall yang sesuai. Metode yang dipilih harus disesuaikan dengan kebutuhan keamanan dan kompleksitas jaringan.
+        </div>
+    </div>
+
+    <!-- Section 5: Verifikasi dan Troubleshooting -->
+    <div class="section fade-in">
+        <h2 class="section-title">5. VERIFIKASI DAN TROUBLESHOOTING</h2>
+        
+        <h3 class="subsection-title">Memverifikasi Konfigurasi</h3>
+        
+        <p>Dari sumber MikroTik Documentation (2024), setelah mengkonfigurasi SSID dan Virtual AP, penting untuk memverifikasi bahwa semuanya berfungsi dengan benar. Berikut adalah perintah CLI yang dapat digunakan untuk verifikasi:</p>
+        
+        <div class="code-terminal">
+            <div class="code-line"><span class="keyword">/interface wireless print</span></div>
+            <div class="code-line comment"># Menampilkan semua interface wireless dan statusnya</div>
+            <div class="code-line">Flags: X - disabled, R - running </div>
+            <div class="code-line"> 0 R name="wlan1" mtu=1500 l2mtu=1600 mac-address=74:4D:28:XX:XX:XX arp=enabled</div>
+            <div class="code-line">   interface-type=Atheros AR9300 mode=ap-bridge ssid="MainNetwork" frequency=2412</div>
+            <div class="code-line">   band=2ghz-b/g/n channel-width=20MHz security-profile=main-profile</div>
+            <div class="code-line"> 1 R name="virtual-wifi" mtu=1500 l2mtu=1600 mac-address=74:4D:28:XX:XX:XX arp=enabled</div>
+            <div class="code-line">   interface-type=virtual mode=ap-bridge ssid="GuestNetwork" master-interface=wlan1</div>
+            <div class="code-line">   security-profile=guest-profile</div>
+        </div>
+        
+        <p>Dari sumber MikroTik Documentation (2024), untuk melihat klien yang terhubung ke jaringan wireless:</p>
+        
+        <div class="code-terminal">
+            <div class="code-line"><span class="keyword">/interface wireless registration-table print</span></div>
+            <div class="code-line comment"># Menampilkan daftar klien yang terhubung ke jaringan wireless</div>
+            <div class="code-line"># INTERFACE    MAC-ADDRESS       AP  SIGNAL-STRENGTH UPTIME</div>
+            <div class="code-line">0 wlan1        00:11:22:33:44:55 no  -60dBm          12m30s</div>
+            <div class="code-line">1 virtual-wifi  11:22:33:44:55:66 no  -65dBm          5m20s</div>
+        </div>
+        
+        <h3 class="subsection-title">Pemindaian Jaringan Wireless</h3>
+        
+        <p>Dari sumber MikroTik WiFi Documentation (2024), untuk memverifikasi bahwa SSID Anda disiarkan dan dapat ditemukan oleh perangkat lain, gunakan perintah pemindaian:</p>
+        
+        <div class="code-terminal">
+            <div class="code-line"><span class="keyword">/interface wireless scan</span> wlan1</div>
+            <div class="code-line comment"># Memindai jaringan wireless di sekitar menggunakan interface wlan1</div>
+            <div class="code-line"># ADDRESS           SSID                    RADIO-NAME                FREQ</div>
+            <div class="code-line">0 AA:BB:CC:DD:EE:FF MainNetwork             RouterMain               2412</div>
+            <div class="code-line">1 AA:BB:CC:DD:EE:FF GuestNetwork            RouterMain               2412</div>
+        </div>
+        
+        <h3 class="subsection-title">Troubleshooting Umum</h3>
+        
+        <p>Dari sumber MikroTik Troubleshooting Guide (2023), beberapa masalah umum yang mungkin terjadi saat mengkonfigurasi SSID dan Virtual AP:</p>
+        
+        <p>1. SSID Tidak Muncul:</p>
+        <div class="code-terminal">
+            <div class="code-line"><span class="comment"># Periksa apakah interface wireless diaktifkan</span></div>
+            <div class="code-line"><span class="keyword">/interface wireless print</span></div>
+            <div class="code-line comment"># Jika interface menunjukkan tanda X (disabled), aktifkan dengan:</div>
+            <div class="code-line"><span class="keyword">/interface wireless enable</span> [find name=wlan1]</div>
+        </div>
+        
+        <p>2. Klien Tidak Dapat Terhubung:</p>
+        <div class="code-terminal">
+            <div class="code-line"><span class="comment"># Periksa pengaturan keamanan</span></div>
+            <div class="code-line"><span class="keyword">/interface wireless security-profiles print</span></div>
+            <div class="code-line comment"># Pastikan passphrase sudah benar dan tipe autentikasi sesuai</div>
+        </div>
+        
+        <p>3. Virtual AP Tidak Berfungsi:</p>
+        <div class="code-terminal">
+            <div class="code-line"><span class="comment"># Pastikan master-interface dalam mode yang benar</span></div>
+            <div class="code-line"><span class="keyword">/interface wireless print</span> [find name=wlan1]</div>
+            <div class="code-line comment"># Master interface harus dalam mode ap-bridge</div>
+            <div class="code-line"><span class="keyword">/interface wireless set</span> [find name=wlan1] <span class="string">mode=ap-bridge</span></div>
+        </div>
+        
+        <p>4. Masalah Konektivitas Internet:</p>
+        <div class="code-terminal">
+            <div class="code-line"><span class="comment"># Untuk Virtual AP dengan bridge terpisah, periksa konfigurasi NAT</span></div>
+            <div class="code-line"><span class="keyword">/ip firewall nat print</span></div>
+            <div class="code-line comment"># Pastikan ada aturan masquerade untuk subnet jaringan tamu</div>
+        </div>
+        
+        <p>Dari sumber MikroTik WiFi Documentation (2024), perintah torch dapat digunakan untuk memantau lalu lintas pada interface wireless dan membantu mengidentifikasi masalah:</p>
+        
+        <div class="code-terminal">
+            <div class="code-line"><span class="keyword">/tool torch</span> interface=wlan1</div>
+            <div class="code-line comment"># Memantau lalu lintas pada interface wlan1</div>
+        </div>
+        
+        <div class="tech-alert">
+            <p>Jika Anda memiliki beberapa Virtual AP, batasi jumlahnya hingga 3-4 per interface fisik untuk menjaga performa. Setiap Virtual AP akan menggunakan bandwidth dan resource tambahan dari perangkat MikroTik.</p>
+        </div>
+        
+        <div class="conclusion-box">
+            <strong>Dari 2 pendapat tersebut dapat disimpulkan bahwa</strong> verifikasi dan troubleshooting adalah langkah penting setelah mengkonfigurasi SSID dan Virtual AP di MikroTik. Menggunakan perintah CLI seperti print, scan, dan torch dapat membantu memverifikasi konfigurasi dan mengidentifikasi masalah. Beberapa masalah umum meliputi interface yang dinonaktifkan, pengaturan keamanan yang tidak tepat, mode interface yang salah, dan masalah konektivitas internet yang dapat diatasi dengan langkah-langkah tertentu.
+        </div>
+    </div>
+
+    <!-- Bibliography -->
+    <div class="bibliography">
+        <h3>DAFTAR PUSTAKA</h3>
+        <ul>
+            <li><strong>MikroTik Documentation.</strong> 2024. <em>Wireless Interface - RouterOS</em>. <a href="https://help.mikrotik.com/docs/spaces/ROS/pages/8978446/Wireless+Interface" target="_blank">https://help.mikrotik.com/docs/spaces/ROS/pages/8978446/Wireless+Interface</a>. Diakses pada 12 September 2025, pukul 08:15 WIB.</li>
+            
+            <li><strong>MikroTik WiFi Documentation.</strong> 2024. <em>WiFi</em>. <a href="https://help.mikrotik.com/docs/spaces/ROS/pages/224559120/WiFi" target="_blank">https://help.mikrotik.com/docs/spaces/ROS/pages/224559120/WiFi</a>. Diakses pada 12 September 2025, pukul 08:45 WIB.</li>
+            
+            <li><strong>MikroTik Wiki.</strong> 2024. <em>Manual:Interface/Wireless</em>. <a href="https://wiki.mikrotik.com/Manual:Interface/Wireless" target="_blank">https://wiki.mikrotik.com/Manual:Interface/Wireless</a>. Diakses pada 12 September 2025, pukul 09:20 WIB.</li>
+            
+            <li><strong>jcutrer.com.</strong> 2020. <em>MikroTik Tutorial: Adding a 2nd Wireless SSID Virtual Access Point</em>. <a href="https://jcutrer.com/howto/networking/mikrotik/mikrotik-tutorial-adding-a-2nd-wireless-ssid-virtual-access-point" target="_blank">https://jcutrer.com/howto/networking/mikrotik/mikrotik-tutorial-adding-a-2nd-wireless-ssid-virtual-access-point</a>. Diakses pada 12 September 2025, pukul 09:55 WIB.</li>
+
+            <li><strong>MikroTik Help.</strong> 2024. <em>Configuring standalone access point</em>. <a href="https://help.mikrotik.com/docs/spaces/ROS/pages/317128725/Configuring+standalone+access+point" target="_blank">https://help.mikrotik.com/docs/spaces/ROS/pages/317128725/Configuring+standalone+access+point</a>. Diakses pada 12 September 2025, pukul 10:30 WIB.</li>
+
+            <li><strong>RouterOS Manual.</strong> 2023. <em>Wireless Security Settings</em>. <a href="https://wiki.mikrotik.com/Manual:Interface/Wireless" target="_blank">https://wiki.mikrotik.com/Manual:Interface/Wireless</a>. Diakses pada 12 September 2025, pukul 11:05 WIB.</li>
+
+            <li><strong>NetworkWorld.</strong> 2023. <em>Understanding Wireless SSID Best Practices</em>. <a href="https://www.networkworld.com/article/wireless-ssid-best-practices.html" target="_blank">https://www.networkworld.com/article/wireless-ssid-best-practices.html</a>. Diakses pada 12 September 2025, pukul 11:40 WIB.</li>
+
+            <li><strong>SystemZone.</strong> 2021. <em>MikroTik Multiple SSID with Separate LAN and DHCP Server</em>. <a href="https://systemzone.net/mikrotik-multiple-ssid-with-separate-lan-and-dhcp-server/" target="_blank">https://systemzone.net/mikrotik-multiple-ssid-with-separate-lan-and-dhcp-server/</a>. Diakses pada 12 September 2025, pukul 12:15 WIB.</li>
+
+            <li><strong>MikroTik Troubleshooting Guide.</strong> 2023. <em>Wireless Network Troubleshooting</em>. <a href="https://help.mikrotik.com/docs/display/ROS/Troubleshooting" target="_blank">https://help.mikrotik.com/docs/display/ROS/Troubleshooting</a>. Diakses pada 12 September 2025, pukul 12:50 WIB.</li>
+
+            <li><strong>fsudo.com.</strong> 2024. <em>Como Configurar AP Isolation no Mikrotik: Tutorial Completo Passo a Passo</em>. <a href="https://fsudo.com/como-configurar-ap-isolation-no-mikrotik-tutorial-completo-passo-a-passo/" target="_blank">https://fsudo.com/como-configurar-ap-isolation-no-mikrotik-tutorial-completo-passo-a-passo/</a>. Diakses pada 12 September 2025, pukul 13:25 WIB.</li>
+        </ul>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<script>
+    // Tech particles animation
+    function createTechParticles() {
+        const particlesContainer = document.getElementById('techParticles');
+        const particleCount = 50;
+
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+            
+            particlesContainer.appendChild(particle);
+        }
+    }
+
+    // Scroll progress
+    function updateScrollProgress() {
+        const scrollTop = document.documentElement.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollPercent = (scrollTop / scrollHeight) * 100;
+        document.getElementById('scrollProgress').style.width = scrollPercent + '%';
+    }
+
+    // Typing effect for code lines
+    function typeText(element, text, speed = 30) {
+        return new Promise(resolve => {
+            element.classList.add('typing');
+            let i = 0;
+            
+            function type() {
+                if (i < text.length) {
+                    element.textContent = text.slice(0, i + 1);
+                    i++;
+                    setTimeout(type, speed);
+                } else {
+                    element.classList.remove('typing');
+                    element.classList.add('typed');
+                    resolve();
+                }
+            }
+            type();
+        });
+    }
+    
+    async function animateCodeBlock(terminal) {
+        const codeLines = terminal.querySelectorAll('.code-line:not(.typed)');
+        for (const line of codeLines) {
+            const originalHTML = line.innerHTML;
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = originalHTML;
+            const textContent = tempDiv.textContent || tempDiv.innerText || '';
+            
+            // Clear the line content, but keep child spans for styling
+            const children = Array.from(line.childNodes).map(child => child.cloneNode(true));
+            line.innerHTML = '';
+            
+            await typeText(line, textContent, 20);
+            
+            // Restore original HTML with spans
+            line.innerHTML = originalHTML;
+            line.classList.add('typed');
+        }
+    }
+
+    // Animate code blocks with typing effect
+    function setupCodeBlockObserver() {
+        const codeTerminals = document.querySelectorAll('.code-terminal');
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const terminal = entry.target;
+                    // For already typed lines, just show them
+                    terminal.querySelectorAll('.code-line.typed').forEach(line => line.style.opacity = '1');
+                    
+                    animateCodeBlock(terminal);
+                    obs.unobserve(terminal); // Animate only once
+                }
+            });
+        }, { threshold: 0.3 });
+
+        codeTerminals.forEach(terminal => {
+            observer.observe(terminal);
+        });
+    }
+
+    // Fade in animation on scroll
+    function animateOnScroll() {
+        const fadeElements = document.querySelectorAll('.fade-in');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.8s ease-out forwards';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        fadeElements.forEach(element => {
+            observer.observe(element);
+        });
+    }
+
+    // Section hover effects
+    function addSectionEffects() {
+        const sections = document.querySelectorAll('.section');
+        sections.forEach(section => {
+            section.addEventListener('mouseenter', () => {
+                section.style.transform = 'translateY(-8px)';
+            });
+            section.addEventListener('mouseleave', () => {
+                section.style.transform = 'translateY(0)';
+            });
+        });
+    }
+
+    // Initialize everything
+    document.addEventListener('DOMContentLoaded', () => {
+        createTechParticles();
+        animateOnScroll();
+        setupCodeBlockObserver();
+        addSectionEffects();
+        
+        // Scroll events
+        window.addEventListener('scroll', updateScrollProgress);
+        
+        // Smooth scrolling for better UX
+        document.documentElement.style.scrollBehavior = 'smooth';
+    });
+
+    // Add responsive particle count
+    function adjustParticleCount() {
+        const width = window.innerWidth;
+        const particlesContainer = document.getElementById('techParticles');
+        const currentParticles = particlesContainer.children.length;
+        const targetParticles = width < 768 ? 20 : width < 1200 ? 35 : 50;
+        
+        if (currentParticles !== targetParticles) {
+            particlesContainer.innerHTML = '';
+            for (let i = 0; i < targetParticles; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+    }
+
+    window.addEventListener('resize', adjustParticleCount);
+
+ 
+</script>
+
+</body>
+</html>
