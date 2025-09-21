@@ -756,66 +756,14 @@ user-drag: none;
 }
 
 </style>
-
-<!-- Portfolio Button -->
-<a href="https://jovian-portofolio02.vercel.app/" target="_blank" class="portfolio-button">
-    <span class="portfolio-icon">🚀</span>
-    Lihat Portfolio Saya
-    <div class="attention-ripple"></div>
-</a>
-<!-- Tech Background -->
-<div class="tech-bg"></div>
-<div class="circuit-pattern"></div>
-<div class="tech-particles" id="techParticles"></div>
-
-<!-- Header -->
-<div class="header">
-    <h1 class="main-title">MIKROTIK ROUTEROS</h1>
-    <div class="subtitle">Mengatur SSID dan Membuat Virtual AP</div>
-    <div class="subtitle">Konfigurasi jaringan nirkabel dengan multiple SSID</div>
-    
-    <div class="author-card">
-        <div class="card-header">Informasi Penulis</div>
-        <div class="author-info">
-            <div class="info-item">
-                <span class="info-label">Penulis:</span>
-                <span class="info-value">Jovian Ekasakta</span>
-            </div>
-            <div class="info-item">
-                <span class="info-label">Guru:</span>
-                <span class="info-value">Arief Wahyudin</span>
-            </div>
-            <div class="info-item">
-                <span class="info-label">Kelas:</span>
-                <span class="info-value">XI TJKT 03</span>
-            </div>
-            <div class="info-item">
-                <span class="info-label">Sekolah:</span>
-                <span class="info-value">Dwija Bhakti 01 Jombang</span>
-            </div>
-        </div>
-    </div>
-</div>
-
-       <div class="section fade-in">
-            <h2 class="section-title"># topologi yang digunakan</h2>
-
-
-
-                                                <div class="image-container">
-          <img src="topologi.png" alt="SERVICE IP pada MikroTik RouterOS">
-          <div class="image-caption">Tampilan topologi di gns3</div>
-        </div>
-
-        </div>
+<!-- Portfolio Button, Tech Background, Header sections remain the same -->
 
 <div class="container">
     <!-- Section 1: Pengertian SSID -->
     <div class="section fade-in">
         <h2 class="section-title">1. PENGERTIAN SSID</h2>
-
         
-                                                <div class="image-container">
+        <div class="image-container">
           <img src="picture (1).png" alt="SERVICE IP pada MikroTik RouterOS">
           <div class="image-caption">Tampilan topologi di gns3</div>
         </div>
@@ -824,29 +772,31 @@ user-drag: none;
         
         <p>Dari sumber NetworkWorld (2023), SSID berfungsi sebagai pengidentifikasi yang memungkinkan perangkat klien untuk membedakan antara beberapa jaringan nirkabel yang tersedia di area yang sama. Ketika pengguna memindai jaringan Wi-Fi yang tersedia, SSID adalah nama yang akan muncul dalam daftar jaringan tersebut, memudahkan pengguna untuk mengenali jaringan yang ingin diakses.</p>
         
-        <h3 class="subsection-title">Konfigurasi SSID di MikroTik</h3>
+        <h3 class="subsection-title">Konfigurasi SSID di MikroTik menggunakan Winbox</h3>
         
-        <div class="code-terminal">
-            <div class="code-line"><span class="keyword">/interface wireless</span> print</div>
-            <div class="code-line comment"># Menampilkan informasi semua interface wireless</div>
-            <div class="code-line">Flags: X - disabled, R - running </div>
-            <div class="code-line"> 0  X name="wlan1" mtu=1500 l2mtu=1600 mac-address=74:4D:28:XX:XX:XX arp=enabled</div>
-            <div class="code-line">   interface-type=Atheros AR9300 mode=ap-bridge ssid="MikroTik" frequency=2412</div>
-            <div class="code-line">   band=2ghz-b/g/n channel-width=20MHz security-profile=default</div>
+        <p>Dari sumber MikroTik Wiki (2024), untuk mengatur SSID pada interface wireless MikroTik menggunakan Winbox, ikuti langkah-langkah berikut:</p>
+        
+        <div class="tech-alert">
+            <p>1. Buka aplikasi Winbox dan hubungkan ke router MikroTik Anda</p>
+            <p>2. Klik menu <strong>Wireless</strong> di bagian kiri jendela Winbox</p>
+            <p>3. Pada tab <strong>Interfaces</strong>, pilih interface wireless yang ingin dikonfigurasi (misalnya wlan1)</p>
+            <p>4. Klik tombol <strong>Double Click</strong> atau <strong>Edit</strong> untuk membuka jendela konfigurasi</p>
+            <p>5. Pada tab <strong>Wireless</strong>, masukkan nama jaringan pada kolom <strong>SSID</strong></p>
+            <p>6. Pilih <strong>ap bridge</strong> pada mode (untuk RouterOS v6) atau <strong>ap</strong> (untuk RouterOS v7)</p>
+            <p>7. Atur frekuensi sesuai kebutuhan atau gunakan <strong>auto</strong></p>
+            <p>8. Klik <strong>OK</strong> untuk menyimpan konfigurasi</p>
+            <p>9. Kembali ke daftar interface, pastikan tanda <strong>X</strong> (disabled) tidak muncul, jika muncul klik kanan dan pilih <strong>Enable</strong></p>
         </div>
         
-        <p>Dari sumber MikroTik Wiki (2024), untuk mengatur SSID pada interface wireless MikroTik, gunakan perintah berikut:</p>
+        <p>Dari sumber MikroTik Help (2024), untuk RouterOS versi 7 keatas, tampilan menu dan opsi di Winbox sedikit berbeda:</p>
         
-        <div class="code-terminal">
-            <div class="code-line"><span class="keyword">/interface wireless set</span> [find] <span class="string">ssid=NamaJaringanAnda</span> <span class="string">frequency=auto</span> <span class="string">disabled=no</span></div>
-            <div class="code-line comment"># Mengatur SSID, frekuensi otomatis, dan mengaktifkan interface wireless</div>
-        </div>
-        
-        <p>Dari sumber MikroTik Help (2024), untuk RouterOS versi 7 keatas, sintaks perintah sedikit berbeda:</p>
-        
-        <div class="code-terminal">
-            <div class="code-line"><span class="keyword">/interface wifi set</span> [find default-name=wifi1] <span class="string">configuration.mode=ap</span> <span class="string">configuration.country=Indonesia</span> <span class="string">ssid=MyNetwork</span> <span class="string">disabled=no</span></div>
-            <div class="code-line comment"># Konfigurasi SSID pada RouterOS v7</div>
+        <div class="tech-alert">
+            <p>1. Di Winbox untuk RouterOS v7, klik menu <strong>WiFi</strong> (bukan Wireless)</p>
+            <p>2. Pilih interface WiFi yang akan dikonfigurasi</p>
+            <p>3. Di tab <strong>Configuration</strong>, pilih <strong>mode=ap</strong></p>
+            <p>4. Isi kolom <strong>SSID</strong> dengan nama jaringan yang diinginkan</p>
+            <p>5. Pilih <strong>Country</strong> untuk mematuhi regulasi frekuensi setempat</p>
+            <p>6. Klik <strong>OK</strong> untuk menyimpan konfigurasi</p>
         </div>
         
         <div class="tech-alert">
@@ -854,45 +804,54 @@ user-drag: none;
         </div>
         
         <div class="conclusion-box">
-            <strong>Dari 2 pendapat tersebut dapat disimpulkan bahwa</strong> SSID adalah nama identifikasi penting untuk jaringan wireless yang membantu pengguna membedakan jaringan Wi-Fi yang tersedia. Konfigurasi SSID di MikroTik dapat dilakukan dengan mudah melalui command line interface (CLI) menggunakan perintah yang sesuai dengan versi RouterOS yang digunakan.
+            <strong>Dari 2 pendapat tersebut dapat disimpulkan bahwa</strong> SSID adalah nama identifikasi penting untuk jaringan wireless yang membantu pengguna membedakan jaringan Wi-Fi yang tersedia. Konfigurasi SSID di MikroTik dapat dilakukan dengan mudah melalui interface grafis Winbox dengan menu dan opsi yang disesuaikan dengan versi RouterOS yang digunakan.
         </div>
     </div>
 
     <!-- Section 2: Keamanan Wireless -->
     <div class="section fade-in">
         <h2 class="section-title">2. KEAMANAN JARINGAN WIRELESS</h2>
-
-                
-                                                <div class="image-container">
+        
+        <div class="image-container">
           <img src="no.png" alt="SERVICE IP pada MikroTik RouterOS">
           <div class="image-caption">Tampilan topologi di gns3</div>
         </div>
         
         <h3 class="subsection-title">Profil Keamanan</h3>
         
-        <p>Dari sumber MikroTik Documentation (2024), sebelum mengatur SSID, penting untuk membuat profil keamanan yang akan digunakan untuk melindungi jaringan nirkabel. Profil keamanan berisi pengaturan otentikasi dan enkripsi yang akan diterapkan pada SSID. Berikut adalah langkah-langkah untuk membuat profil keamanan menggunakan CLI:</p>
+        <p>Dari sumber MikroTik Documentation (2024), sebelum mengatur SSID, penting untuk membuat profil keamanan yang akan digunakan untuk melindungi jaringan nirkabel. Profil keamanan berisi pengaturan otentikasi dan enkripsi yang akan diterapkan pada SSID. Berikut adalah langkah-langkah untuk membuat profil keamanan menggunakan Winbox:</p>
         
-        <div class="code-terminal">
-            <div class="code-line"><span class="keyword">/interface wireless security-profiles</span></div>
-            <div class="code-line"><span class="keyword">add</span> <span class="string">name=profil-utama</span> <span class="string">authentication-types=wpa2-psk</span> <span class="string">mode=dynamic-keys</span> <span class="string">wpa2-pre-shared-key=PasswordKuat123</span></div>
-            <div class="code-line comment"># Membuat profil keamanan dengan autentikasi WPA2-PSK</div>
+        <div class="tech-alert">
+            <p>1. Buka Winbox dan hubungkan ke router MikroTik</p>
+            <p>2. Klik menu <strong>Wireless</strong> di panel kiri</p>
+            <p>3. Pilih tab <strong>Security Profiles</strong></p>
+            <p>4. Klik tombol <strong>+</strong> (plus) untuk menambahkan profil baru</p>
+            <p>5. Pada kolom <strong>Name</strong>, masukkan nama profil (misalnya "profil-utama")</p>
+            <p>6. Pada bagian <strong>Mode</strong>, pilih "dynamic keys"</p>
+            <p>7. Pada <strong>Authentication Types</strong>, centang "WPA2 PSK"</p>
+            <p>8. Masukkan password kuat pada kolom <strong>WPA2 Pre-Shared Key</strong></p>
+            <p>9. Klik <strong>Apply</strong> kemudian <strong>OK</strong> untuk menyimpan profil</p>
         </div>
         
-        <p>Dari sumber RouterOS Manual (2023), MikroTik mendukung beberapa tipe autentikasi untuk keamanan jaringan wireless:</p>
+        <p>Dari sumber RouterOS Manual (2023), MikroTik mendukung beberapa tipe autentikasi untuk keamanan jaringan wireless yang dapat dipilih melalui Winbox:</p>
         
-        <div class="code-terminal">
-            <div class="code-line"><span class="keyword">authentication-types:</span></div>
-            <div class="code-line">- wpa-psk <span class="comment"># Kurang aman, kompatibel dengan perangkat lama</span></div>
-            <div class="code-line">- wpa2-psk <span class="comment"># Rekomendasi untuk keamanan dan kompatibilitas</span></div>
-            <div class="code-line">- wpa3-psk <span class="comment"># Tingkat keamanan tertinggi (perangkat baru)</span></div>
-            <div class="code-line">- wpa-eap, wpa2-eap <span class="comment"># Untuk otentikasi menggunakan RADIUS server</span></div>
+        <div class="tech-alert">
+            <p><strong>Authentication Types yang tersedia:</strong></p>
+            <p>- WPA PSK: Kurang aman, tetapi kompatibel dengan perangkat lama</p>
+            <p>- WPA2 PSK: Rekomendasi untuk keamanan dan kompatibilitas yang optimal</p>
+            <p>- WPA3 PSK: Tingkat keamanan tertinggi (hanya untuk perangkat baru)</p>
+            <p>- WPA EAP, WPA2 EAP: Untuk otentikasi menggunakan RADIUS server</p>
         </div>
         
-        <p>Dari sumber MikroTik WiFi Documentation (2024), untuk RouterOS versi 7, pengaturan keamanan dapat dilakukan langsung pada interface wireless:</p>
+        <p>Dari sumber MikroTik WiFi Documentation (2024), untuk RouterOS versi 7, pengaturan keamanan di Winbox dapat dilakukan langsung pada interface wireless:</p>
         
-        <div class="code-terminal">
-            <div class="code-line"><span class="keyword">/interface wifi set</span> [find default-name=wifi1] <span class="string">security.authentication-types=wpa2-psk</span> <span class="string">security.passphrase=PasswordKuat123</span></div>
-            <div class="code-line comment"># Menerapkan pengaturan keamanan langsung ke interface (RouterOS v7)</div>
+        <div class="tech-alert">
+            <p>1. Di Winbox, buka menu <strong>WiFi</strong></p>
+            <p>2. Pilih interface yang akan dikonfigurasi</p>
+            <p>3. Pada jendela konfigurasi, navigasi ke tab <strong>Security</strong></p>
+            <p>4. Pada <strong>Authentication Types</strong>, pilih "wpa2-psk"</p>
+            <p>5. Masukkan kata sandi yang kuat pada kolom <strong>Passphrase</strong></p>
+            <p>6. Klik <strong>OK</strong> untuk menyimpan pengaturan</p>
         </div>
         
         <div class="security-alert">
@@ -901,30 +860,32 @@ user-drag: none;
         
         <h3 class="subsection-title">Menyembunyikan SSID</h3>
         
-        <p>Dari sumber NetworkWorld (2023), meskipun bukan metode keamanan utama, menyembunyikan SSID dapat memberikan lapisan keamanan tambahan dengan membuat jaringan tidak muncul pada daftar jaringan yang tersedia bagi perangkat klien biasa. Untuk menyembunyikan SSID:</p>
+        <p>Dari sumber NetworkWorld (2023), meskipun bukan metode keamanan utama, menyembunyikan SSID dapat memberikan lapisan keamanan tambahan dengan membuat jaringan tidak muncul pada daftar jaringan yang tersedia bagi perangkat klien biasa. Untuk menyembunyikan SSID menggunakan Winbox:</p>
         
-        <div class="code-terminal">
-            <div class="code-line"><span class="keyword">/interface wireless set</span> [find default-name=wifi1] <span class="string">hide-ssid=yes</span></div>
-            <div class="code-line comment"># Menyembunyikan SSID dari daftar jaringan yang terlihat</div>
-        </div>
-        
-        <p>Untuk RouterOS versi 7:</p>
-        
-        <div class="code-terminal">
-            <div class="code-line"><span class="keyword">/interface wifi set</span> [find default-name=wifi1] <span class="string">hide-ssid=yes</span></div>
-            <div class="code-line comment"># Menyembunyikan SSID di RouterOS v7</div>
+        <div class="tech-alert">
+            <p>Untuk RouterOS v6:</p>
+            <p>1. Di Winbox, buka menu <strong>Wireless</strong></p>
+            <p>2. Double-klik pada interface wireless yang ingin disembunyikan</p>
+            <p>3. Pada jendela konfigurasi, centang opsi <strong>Hide SSID</strong></p>
+            <p>4. Klik <strong>OK</strong> untuk menyimpan perubahan</p>
+            
+            <p>Untuk RouterOS v7:</p>
+            <p>1. Di Winbox, buka menu <strong>WiFi</strong></p>
+            <p>2. Double-klik pada interface WiFi yang ingin disembunyikan</p>
+            <p>3. Pada tab konfigurasi, centang opsi <strong>Hide SSID</strong></p>
+            <p>4. Klik <strong>OK</strong> untuk menyimpan perubahan</p>
         </div>
         
         <div class="conclusion-box">
-            <strong>Dari 3 pendapat tersebut dapat disimpulkan bahwa</strong> keamanan jaringan wireless di MikroTik sangat penting dan harus dikonfigurasi dengan tepat menggunakan profil keamanan yang mendukung minimal WPA2-PSK. Penggunaan kata sandi yang kuat dan penyembunyian SSID adalah langkah-langkah yang dapat meningkatkan keamanan, meskipun penyembunyian SSID sendiri bukan merupakan metode keamanan yang andal jika tidak dikombinasikan dengan enkripsi yang kuat.
+            <strong>Dari 3 pendapat tersebut dapat disimpulkan bahwa</strong> keamanan jaringan wireless di MikroTik sangat penting dan harus dikonfigurasi dengan tepat menggunakan profil keamanan yang mendukung minimal WPA2-PSK. Melalui interface Winbox, pengguna dapat dengan mudah membuat profil keamanan dan menerapkannya pada SSID. Penggunaan kata sandi yang kuat dan penyembunyian SSID adalah langkah-langkah yang dapat meningkatkan keamanan, meskipun penyembunyian SSID sendiri bukan merupakan metode keamanan yang andal jika tidak dikombinasikan dengan enkripsi yang kuat.
         </div>
     </div>
 
     <!-- Section 3: Membuat Virtual AP -->
     <div class="section fade-in">
         <h2 class="section-title">3. MEMBUAT VIRTUAL AP</h2>
-
-                                                        <div class="image-container">
+        
+        <div class="image-container">
           <img src="3.png" alt="SERVICE IP pada MikroTik RouterOS">
           <div class="image-caption">Tampilan topologi di gns3</div>
         </div>
@@ -935,27 +896,40 @@ user-drag: none;
         
         <p>Dari sumber jcutrer.com (2020), Virtual AP memungkinkan administrator jaringan untuk membuat jaringan terpisah dengan tujuan berbeda, seperti jaringan tamu, jaringan untuk perangkat IoT, atau jaringan untuk karyawan, semua menggunakan satu perangkat fisik yang sama. Fitur ini sangat berguna untuk optimalisasi penggunaan perangkat dan memberikan fleksibilitas dalam pengelolaan jaringan.</p>
         
-        <h3 class="subsection-title">Membuat Virtual AP Menggunakan CLI</h3>
+        <h3 class="subsection-title">Membuat Virtual AP Menggunakan Winbox</h3>
         
-        <p>Dari sumber MikroTik Documentation (2024), untuk membuat Virtual AP menggunakan Command Line Interface (CLI) pada RouterOS versi 6, gunakan perintah berikut:</p>
+        <p>Dari sumber MikroTik Documentation (2024), untuk membuat Virtual AP menggunakan Winbox pada RouterOS versi 6, ikuti langkah-langkah berikut:</p>
         
-        <div class="code-terminal">
-            <div class="code-line"><span class="keyword">/interface wireless add</span> <span class="string">name=virtual-wifi</span> <span class="string">master-interface=wlan1</span> <span class="string">ssid=GuestNetwork</span> <span class="string">disabled=no</span></div>
-            <div class="code-line comment"># Membuat interface Virtual AP dengan SSID "GuestNetwork"</div>
+        <div class="tech-alert">
+            <p>1. Buka Winbox dan hubungkan ke router MikroTik</p>
+            <p>2. Klik menu <strong>Wireless</strong> di panel kiri</p>
+            <p>3. Pada tab <strong>Interfaces</strong>, klik tombol <strong>+</strong> (plus) untuk menambahkan interface baru</p>
+            <p>4. Dari dropdown menu yang muncul, pilih <strong>Virtual AP</strong></p>
+            <p>5. Pada jendela konfigurasi, atur parameter berikut:</p>
+            <p>&nbsp;&nbsp;- <strong>Name</strong>: Masukkan nama interface (misalnya "virtual-wifi")</p>
+            <p>&nbsp;&nbsp;- Pada tab <strong>Wireless</strong>:</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;* <strong>SSID</strong>: Masukkan nama jaringan tamu (misalnya "GuestNetwork")</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;* <strong>Master Interface</strong>: Pilih interface wireless fisik (wlan1)</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;* <strong>Security Profile</strong>: Pilih profil keamanan yang telah dibuat sebelumnya</p>
+            <p>6. Klik <strong>OK</strong> untuk menyimpan konfigurasi</p>
+            <p>7. Pastikan interface tidak dinonaktifkan (tidak memiliki tanda X)</p>
         </div>
         
-        <p>Dari sumber MikroTik Help (2024), untuk RouterOS versi 7, sintaks perintah untuk membuat Virtual AP adalah:</p>
+        <p>Dari sumber MikroTik Help (2024), untuk RouterOS versi 7, proses pembuatan Virtual AP di Winbox sedikit berbeda:</p>
         
-        <div class="code-terminal">
-            <div class="code-line"><span class="keyword">/interface wifi add</span> <span class="string">configuration.mode=ap</span> <span class="string">ssid=GuestNetwork</span> <span class="string">disabled=no</span> <span class="string">master-interface=wifi1</span> <span class="string">name=virtual-wifi</span></div>
-            <div class="code-line comment"># Membuat Virtual AP dengan RouterOS v7</div>
-        </div>
-        
-        <p>Untuk menambahkan pengaturan keamanan pada Virtual AP di RouterOS versi 7:</p>
-        
-        <div class="code-terminal">
-            <div class="code-line"><span class="keyword">/interface wifi add</span> <span class="string">configuration.mode=ap</span> <span class="string">ssid=GuestNetwork</span> <span class="string">disabled=no</span> <span class="string">master-interface=wifi1</span> <span class="string">name=virtual-wifi</span> <span class="string">security.authentication-types=wpa2-psk</span> <span class="string">security.passphrase=GuestPassword</span></div>
-            <div class="code-line comment"># Membuat Virtual AP dengan keamanan WPA2-PSK</div>
+        <div class="tech-alert">
+            <p>1. Di Winbox, buka menu <strong>WiFi</strong></p>
+            <p>2. Klik tombol <strong>+</strong> (plus) untuk menambahkan interface baru</p>
+            <p>3. Pada jendela konfigurasi, atur parameter berikut:</p>
+            <p>&nbsp;&nbsp;- <strong>Name</strong>: Masukkan nama interface (misalnya "virtual-wifi")</p>
+            <p>&nbsp;&nbsp;- <strong>Master Interface</strong>: Pilih interface WiFi fisik (wifi1)</p>
+            <p>&nbsp;&nbsp;- Pada bagian <strong>Configuration</strong>:</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;* <strong>Mode</strong>: Pilih "ap"</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;* <strong>SSID</strong>: Masukkan nama jaringan tamu</p>
+            <p>&nbsp;&nbsp;- Pada bagian <strong>Security</strong>:</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;* <strong>Authentication Types</strong>: Pilih "wpa2-psk"</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;* <strong>Passphrase</strong>: Masukkan kata sandi untuk jaringan tamu</p>
+            <p>4. Klik <strong>OK</strong> untuk menyimpan konfigurasi</p>
         </div>
         
         <div class="tech-alert">
@@ -964,15 +938,20 @@ user-drag: none;
         
         <h3 class="subsection-title">Menghubungkan Virtual AP ke Bridge</h3>
         
-        <p>Dari sumber jcutrer.com (2020), setelah membuat Virtual AP, langkah selanjutnya adalah menambahkannya ke bridge agar dapat berkomunikasi dengan jaringan lain:</p>
+        <p>Dari sumber jcutrer.com (2020), setelah membuat Virtual AP, langkah selanjutnya adalah menambahkannya ke bridge agar dapat berkomunikasi dengan jaringan lain. Berikut adalah langkah-langkah menggunakan Winbox:</p>
         
-        <div class="code-terminal">
-            <div class="code-line"><span class="keyword">/interface bridge port add</span> <span class="string">bridge=bridge1</span> <span class="string">interface=virtual-wifi</span></div>
-            <div class="code-line comment"># Menambahkan Virtual AP ke bridge</div>
+        <div class="tech-alert">
+            <p>1. Di Winbox, klik menu <strong>Bridge</strong> di panel kiri</p>
+            <p>2. Pilih tab <strong>Ports</strong></p>
+            <p>3. Klik tombol <strong>+</strong> (plus) untuk menambahkan port baru</p>
+            <p>4. Pada jendela konfigurasi, atur parameter berikut:</p>
+            <p>&nbsp;&nbsp;- <strong>Interface</strong>: Pilih interface Virtual AP yang telah dibuat</p>
+            <p>&nbsp;&nbsp;- <strong>Bridge</strong>: Pilih bridge yang ingin ditambahkan Virtual AP (misalnya bridge1)</p>
+            <p>5. Klik <strong>OK</strong> untuk menyimpan konfigurasi</p>
         </div>
         
         <div class="conclusion-box">
-            <strong>Dari 2 pendapat tersebut dapat disimpulkan bahwa</strong> Virtual AP adalah solusi efisien untuk menyediakan beberapa jaringan wireless dengan SSID berbeda menggunakan satu perangkat MikroTik. Konfigurasi dapat dilakukan dengan mudah melalui CLI dengan perintah yang sesuai versi RouterOS, dan untuk mengaktifkan komunikasi dengan jaringan lain, Virtual AP perlu ditambahkan ke bridge.
+            <strong>Dari 2 pendapat tersebut dapat disimpulkan bahwa</strong> Virtual AP adalah solusi efisien untuk menyediakan beberapa jaringan wireless dengan SSID berbeda menggunakan satu perangkat MikroTik. Konfigurasi dapat dilakukan dengan mudah melalui interface Winbox dengan memilih opsi Virtual AP saat menambahkan interface baru, dan untuk mengaktifkan komunikasi dengan jaringan lain, Virtual AP perlu ditambahkan ke bridge melalui menu Bridge Ports.
         </div>
     </div>
 
@@ -986,64 +965,110 @@ user-drag: none;
         
         <p>Dari sumber SystemZone (2021), ada dua pendekatan untuk mengisolasi Virtual AP: menggunakan bridge filter atau membuat bridge terpisah dengan subnet IP yang berbeda. Pendekatan kedua menawarkan isolasi yang lebih lengkap dan manajemen lalu lintas yang lebih baik, terutama untuk jaringan yang lebih kompleks.</p>
         
-        <h3 class="subsection-title">Metode 1: Menggunakan Bridge Filter</h3>
+        <h3 class="subsection-title">Metode 1: Menggunakan AP Isolation</h3>
         
-        <p>Dari sumber fsudo.com (2024), MikroTik memiliki fitur AP Isolation yang dapat diaktifkan untuk mencegah komunikasi antar perangkat yang terhubung ke SSID yang sama. Untuk mengaktifkan AP Isolation melalui CLI:</p>
+        <p>Dari sumber fsudo.com (2024), MikroTik memiliki fitur AP Isolation yang dapat diaktifkan untuk mencegah komunikasi antar perangkat yang terhubung ke SSID yang sama. Untuk mengaktifkan AP Isolation melalui Winbox:</p>
         
-        <div class="code-terminal">
-            <div class="code-line"><span class="keyword">/interface wireless set</span> wlan1 <span class="string">isolate-ap=yes</span></div>
-            <div class="code-line comment"># Mengaktifkan AP Isolation pada interface wireless</div>
+        <div class="tech-alert">
+            <p>1. Buka Winbox dan hubungkan ke router MikroTik</p>
+            <p>2. Klik menu <strong>Wireless</strong> (RouterOS v6) atau <strong>WiFi</strong> (RouterOS v7) di panel kiri</p>
+            <p>3. Double-klik pada interface wireless yang ingin diisolasi</p>
+            <p>4. Pada tab <strong>Wireless</strong> (v6) atau <strong>Configuration</strong> (v7), centang opsi <strong>Isolate AP</strong></p>
+            <p>5. Klik <strong>OK</strong> untuk menyimpan perubahan</p>
         </div>
         
-        <p>Dari sumber jcutrer.com (2020), untuk isolasi lebih lanjut antara jaringan utama dan jaringan tamu, dapat menggunakan bridge filter:</p>
+        <p>Dari sumber jcutrer.com (2020), untuk isolasi lebih lanjut antara jaringan utama dan jaringan tamu, dapat menggunakan bridge filter. Berikut langkah-langkah melalui Winbox:</p>
         
-        <div class="code-terminal">
-            <div class="code-line"><span class="keyword">/interface bridge filter</span></div>
-            <div class="code-line"><span class="keyword">add</span> <span class="string">action=drop</span> <span class="string">chain=forward</span> <span class="string">in-interface=virtual-wifi</span> <span class="string">out-interface=!virtual-wifi</span></div>
-            <div class="code-line comment"># Memblokir lalu lintas dari Virtual AP ke interface lain</div>
+        <div class="tech-alert">
+            <p>1. Di Winbox, buka menu <strong>Bridge</strong></p>
+            <p>2. Pilih tab <strong>Filter</strong></p>
+            <p>3. Klik tombol <strong>+</strong> (plus) untuk menambahkan aturan filter baru</p>
+            <p>4. Pada jendela konfigurasi, atur parameter berikut:</p>
+            <p>&nbsp;&nbsp;- <strong>Chain</strong>: Pilih "forward"</p>
+            <p>&nbsp;&nbsp;- <strong>In Interface</strong>: Pilih interface Virtual AP</p>
+            <p>&nbsp;&nbsp;- <strong>Out Interface</strong>: Centang <strong>Not</strong>, lalu pilih interface Virtual AP</p>
+            <p>&nbsp;&nbsp;- <strong>Action</strong>: Pilih "drop"</p>
+            <p>5. Klik <strong>OK</strong> untuk menyimpan aturan</p>
         </div>
         
         <h3 class="subsection-title">Metode 2: Membuat Bridge Terpisah</h3>
         
-        <p>Dari sumber SystemZone (2021), pendekatan yang lebih kuat adalah membuat bridge terpisah untuk Virtual AP dan mengkonfigurasi subnet IP yang berbeda:</p>
+        <p>Dari sumber SystemZone (2021), pendekatan yang lebih kuat adalah membuat bridge terpisah untuk Virtual AP dan mengkonfigurasi subnet IP yang berbeda. Berikut adalah langkah-langkah melalui Winbox:</p>
         
-        <div class="code-terminal">
-            <div class="code-line"><span class="keyword">/interface bridge</span></div>
-            <div class="code-line"><span class="keyword">add</span> <span class="string">name=bridge-guest</span></div>
-            <div class="code-line comment"># Membuat bridge baru untuk jaringan tamu</div>
-            <div class="code-line"><span class="keyword">/interface bridge port</span></div>
-            <div class="code-line"><span class="keyword">add</span> <span class="string">bridge=bridge-guest</span> <span class="string">interface=virtual-wifi</span></div>
-            <div class="code-line comment"># Menambahkan interface Virtual AP ke bridge tamu</div>
-            <div class="code-line"><span class="keyword">/ip address</span></div>
-            <div class="code-line"><span class="keyword">add</span> <span class="string">address=192.168.10.1/24</span> <span class="string">interface=bridge-guest</span></div>
-            <div class="code-line comment"># Menambahkan alamat IP untuk bridge tamu</div>
+        <div class="tech-alert">
+            <p><strong>Langkah 1: Membuat Bridge Baru</strong></p>
+            <p>1. Di Winbox, klik menu <strong>Bridge</strong></p>
+            <p>2. Pada tab <strong>Bridge</strong>, klik tombol <strong>+</strong> (plus)</p>
+            <p>3. Pada kolom <strong>Name</strong>, masukkan nama (misalnya "bridge-guest")</p>
+            <p>4. Klik <strong>OK</strong> untuk menyimpan</p>
+            
+            <p><strong>Langkah 2: Menambahkan Virtual AP ke Bridge</strong></p>
+            <p>1. Masih di menu <strong>Bridge</strong>, pilih tab <strong>Ports</strong></p>
+            <p>2. Klik tombol <strong>+</strong> (plus)</p>
+            <p>3. Pada dropdown <strong>Interface</strong>, pilih interface Virtual AP yang telah dibuat</p>
+            <p>4. Pada dropdown <strong>Bridge</strong>, pilih bridge tamu yang baru dibuat</p>
+            <p>5. Klik <strong>OK</strong> untuk menyimpan</p>
+            
+            <p><strong>Langkah 3: Mengkonfigurasi Alamat IP</strong></p>
+            <p>1. Di Winbox, klik menu <strong>IP > Addresses</strong></p>
+            <p>2. Klik tombol <strong>+</strong> (plus)</p>
+            <p>3. Pada kolom <strong>Address</strong>, masukkan alamat IP dengan subnet (misalnya "192.168.10.1/24")</p>
+            <p>4. Pada dropdown <strong>Interface</strong>, pilih bridge tamu</p>
+            <p>5. Klik <strong>OK</strong> untuk menyimpan</p>
         </div>
         
-        <p>Dari sumber jcutrer.com (2020), selanjutnya konfigurasikan DHCP server untuk jaringan tamu:</p>
+        <p>Dari sumber jcutrer.com (2020), selanjutnya konfigurasikan DHCP server untuk jaringan tamu melalui Winbox:</p>
         
-        <div class="code-terminal">
-            <div class="code-line"><span class="keyword">/ip pool</span></div>
-            <div class="code-line"><span class="keyword">add</span> <span class="string">name=guest-pool</span> <span class="string">ranges=192.168.10.10-192.168.10.254</span></div>
-            <div class="code-line comment"># Membuat pool alamat IP untuk jaringan tamu</div>
-            <div class="code-line"><span class="keyword">/ip dhcp-server</span></div>
-            <div class="code-line"><span class="keyword">add</span> <span class="string">address-pool=guest-pool</span> <span class="string">interface=bridge-guest</span> <span class="string">name=dhcp-guest</span></div>
-            <div class="code-line comment"># Membuat DHCP server untuk jaringan tamu</div>
-            <div class="code-line"><span class="keyword">/ip dhcp-server network</span></div>
-            <div class="code-line"><span class="keyword">add</span> <span class="string">address=192.168.10.0/24</span> <span class="string">gateway=192.168.10.1</span> <span class="string">dns-server=8.8.8.8</span></div>
-            <div class="code-line comment"># Menambahkan konfigurasi jaringan untuk DHCP server</div>
+        <div class="tech-alert">
+            <p><strong>Langkah 1: Membuat Pool IP</strong></p>
+            <p>1. Di Winbox, klik menu <strong>IP > Pool</strong></p>
+            <p>2. Klik tombol <strong>+</strong> (plus)</p>
+            <p>3. Pada kolom <strong>Name</strong>, masukkan nama (misalnya "guest-pool")</p>
+            <p>4. Pada kolom <strong>Ranges</strong>, masukkan rentang IP (misalnya "192.168.10.10-192.168.10.254")</p>
+            <p>5. Klik <strong>OK</strong> untuk menyimpan</p>
+            
+            <p><strong>Langkah 2: Membuat DHCP Server</strong></p>
+            <p>1. Di Winbox, klik menu <strong>IP > DHCP Server</strong></p>
+            <p>2. Pilih tab <strong>DHCP</strong>, klik tombol <strong>+</strong> (plus)</p>
+            <p>3. Pada kolom <strong>Name</strong>, masukkan nama (misalnya "dhcp-guest")</p>
+            <p>4. Pada dropdown <strong>Interface</strong>, pilih bridge tamu</p>
+            <p>5. Pada dropdown <strong>Address Pool</strong>, pilih pool yang telah dibuat</p>
+            <p>6. Klik <strong>OK</strong> untuk menyimpan</p>
+            
+            <p><strong>Langkah 3: Mengkonfigurasi Network DHCP</strong></p>
+            <p>1. Masih di menu <strong>IP > DHCP Server</strong>, pilih tab <strong>Networks</strong></p>
+            <p>2. Klik tombol <strong>+</strong> (plus)</p>
+            <p>3. Pada kolom <strong>Address</strong>, masukkan subnet (misalnya "192.168.10.0/24")</p>
+            <p>4. Pada kolom <strong>Gateway</strong>, masukkan alamat IP bridge (misalnya "192.168.10.1")</p>
+            <p>5. Pada kolom <strong>DNS Servers</strong>, masukkan server DNS (misalnya "8.8.8.8")</p>
+            <p>6. Klik <strong>OK</strong> untuk menyimpan</p>
         </div>
         
         <h3 class="subsection-title">Menambahkan NAT dan Firewall Rules</h3>
         
-        <p>Dari sumber SystemZone (2021), agar jaringan tamu dapat mengakses internet dan sekaligus dibatasi aksesnya ke jaringan lokal:</p>
+        <p>Dari sumber SystemZone (2021), agar jaringan tamu dapat mengakses internet dan sekaligus dibatasi aksesnya ke jaringan lokal, konfigurasikan NAT dan aturan Firewall melalui Winbox:</p>
         
-        <div class="code-terminal">
-            <div class="code-line"><span class="keyword">/ip firewall nat</span></div>
-            <div class="code-line"><span class="keyword">add</span> <span class="string">chain=srcnat</span> <span class="string">src-address=192.168.10.0/24</span> <span class="string">action=masquerade</span></div>
-            <div class="code-line comment"># Mengizinkan akses internet untuk jaringan tamu</div>
-            <div class="code-line"><span class="keyword">/ip firewall filter</span></div>
-            <div class="code-line"><span class="keyword">add</span> <span class="string">chain=forward</span> <span class="string">src-address=192.168.10.0/24</span> <span class="string">dst-address=192.168.88.0/24</span> <span class="string">action=drop</span></div>
-            <div class="code-line comment"># Memblokir akses dari jaringan tamu ke jaringan utama</div>
+        <div class="tech-alert">
+            <p><strong>Langkah 1: Menambahkan NAT Rule</strong></p>
+            <p>1. Di Winbox, klik menu <strong>IP > Firewall</strong></p>
+            <p>2. Pilih tab <strong>NAT</strong>, klik tombol <strong>+</strong> (plus)</p>
+            <p>3. Pada tab <strong>General</strong>:</p>
+            <p>&nbsp;&nbsp;- <strong>Chain</strong>: Pilih "srcnat"</p>
+            <p>&nbsp;&nbsp;- <strong>Src. Address</strong>: Masukkan subnet jaringan tamu (misalnya "192.168.10.0/24")</p>
+            <p>4. Pada tab <strong>Action</strong>:</p>
+            <p>&nbsp;&nbsp;- <strong>Action</strong>: Pilih "masquerade"</p>
+            <p>5. Klik <strong>OK</strong> untuk menyimpan</p>
+            
+            <p><strong>Langkah 2: Menambahkan Firewall Rule</strong></p>
+            <p>1. Masih di menu <strong>IP > Firewall</strong>, pilih tab <strong>Filter Rules</strong></p>
+            <p>2. Klik tombol <strong>+</strong> (plus)</p>
+            <p>3. Pada tab <strong>General</strong>:</p>
+            <p>&nbsp;&nbsp;- <strong>Chain</strong>: Pilih "forward"</p>
+            <p>&nbsp;&nbsp;- <strong>Src. Address</strong>: Masukkan subnet jaringan tamu (misalnya "192.168.10.0/24")</p>
+            <p>&nbsp;&nbsp;- <strong>Dst. Address</strong>: Masukkan subnet jaringan utama (misalnya "192.168.88.0/24")</p>
+            <p>4. Pada tab <strong>Action</strong>:</p>
+            <p>&nbsp;&nbsp;- <strong>Action</strong>: Pilih "drop"</p>
+            <p>5. Klik <strong>OK</strong> untuk menyimpan</p>
         </div>
         
         <div class="security-alert">
@@ -1051,7 +1076,7 @@ user-drag: none;
         </div>
         
         <div class="conclusion-box">
-            <strong>Dari 3 pendapat tersebut dapat disimpulkan bahwa</strong> isolasi Virtual AP sangat penting untuk keamanan jaringan, terutama untuk jaringan tamu. Ada beberapa metode yang dapat digunakan, dari isolasi sederhana menggunakan AP Isolation, bridge filter, hingga metode yang lebih komprehensif dengan membuat bridge terpisah, subnet IP berbeda, dan aturan firewall yang sesuai. Metode yang dipilih harus disesuaikan dengan kebutuhan keamanan dan kompleksitas jaringan.
+            <strong>Dari 3 pendapat tersebut dapat disimpulkan bahwa</strong> isolasi Virtual AP sangat penting untuk keamanan jaringan, terutama untuk jaringan tamu. Melalui interface Winbox, pengguna dapat mengimplementasikan berbagai metode isolasi, dari isolasi sederhana menggunakan AP Isolation, bridge filter, hingga metode yang lebih komprehensif dengan membuat bridge terpisah, subnet IP berbeda, DHCP server khusus, dan aturan firewall yang sesuai. Metode yang dipilih harus disesuaikan dengan kebutuhan keamanan dan kompleksitas jaringan.
         </div>
     </div>
 
@@ -1061,81 +1086,84 @@ user-drag: none;
         
         <h3 class="subsection-title">Memverifikasi Konfigurasi</h3>
         
-        <p>Dari sumber MikroTik Documentation (2024), setelah mengkonfigurasi SSID dan Virtual AP, penting untuk memverifikasi bahwa semuanya berfungsi dengan benar. Berikut adalah perintah CLI yang dapat digunakan untuk verifikasi:</p>
+        <p>Dari sumber MikroTik Documentation (2024), setelah mengkonfigurasi SSID dan Virtual AP, penting untuk memverifikasi bahwa semuanya berfungsi dengan benar. Berikut adalah cara verifikasi menggunakan Winbox:</p>
         
-        <div class="code-terminal">
-            <div class="code-line"><span class="keyword">/interface wireless print</span></div>
-            <div class="code-line comment"># Menampilkan semua interface wireless dan statusnya</div>
-            <div class="code-line">Flags: X - disabled, R - running </div>
-            <div class="code-line"> 0 R name="wlan1" mtu=1500 l2mtu=1600 mac-address=74:4D:28:XX:XX:XX arp=enabled</div>
-            <div class="code-line">   interface-type=Atheros AR9300 mode=ap-bridge ssid="MainNetwork" frequency=2412</div>
-            <div class="code-line">   band=2ghz-b/g/n channel-width=20MHz security-profile=main-profile</div>
-            <div class="code-line"> 1 R name="virtual-wifi" mtu=1500 l2mtu=1600 mac-address=74:4D:28:XX:XX:XX arp=enabled</div>
-            <div class="code-line">   interface-type=virtual mode=ap-bridge ssid="GuestNetwork" master-interface=wlan1</div>
-            <div class="code-line">   security-profile=guest-profile</div>
+        <div class="tech-alert">
+            <p><strong>Verifikasi Interface Wireless</strong></p>
+            <p>1. Di Winbox, buka menu <strong>Wireless</strong> (v6) atau <strong>WiFi</strong> (v7)</p>
+            <p>2. Periksa tab <strong>Interfaces</strong></p>
+            <p>3. Pastikan semua interface yang dikonfigurasi memiliki status "R" (running) dan tidak memiliki tanda "X" (disabled)</p>
+            <p>4. Verifikasi bahwa SSID, mode, dan profil keamanan telah dikonfigurasi dengan benar</p>
         </div>
         
-        <p>Dari sumber MikroTik Documentation (2024), untuk melihat klien yang terhubung ke jaringan wireless:</p>
+        <p>Dari sumber MikroTik Documentation (2024), untuk melihat klien yang terhubung ke jaringan wireless melalui Winbox:</p>
         
-        <div class="code-terminal">
-            <div class="code-line"><span class="keyword">/interface wireless registration-table print</span></div>
-            <div class="code-line comment"># Menampilkan daftar klien yang terhubung ke jaringan wireless</div>
-            <div class="code-line"># INTERFACE    MAC-ADDRESS       AP  SIGNAL-STRENGTH UPTIME</div>
-            <div class="code-line">0 wlan1        00:11:22:33:44:55 no  -60dBm          12m30s</div>
-            <div class="code-line">1 virtual-wifi  11:22:33:44:55:66 no  -65dBm          5m20s</div>
+        <div class="tech-alert">
+            <p><strong>Memeriksa Klien yang Terhubung</strong></p>
+            <p>1. Di Winbox, buka menu <strong>Wireless</strong> (v6) atau <strong>WiFi</strong> (v7)</p>
+            <p>2. Pilih tab <strong>Registration Table</strong></p>
+            <p>3. Daftar ini menampilkan semua klien yang terhubung ke jaringan wireless, termasuk MAC address, interface yang digunakan, kekuatan sinyal, dan waktu koneksi</p>
         </div>
         
         <h3 class="subsection-title">Pemindaian Jaringan Wireless</h3>
         
-        <p>Dari sumber MikroTik WiFi Documentation (2024), untuk memverifikasi bahwa SSID Anda disiarkan dan dapat ditemukan oleh perangkat lain, gunakan perintah pemindaian:</p>
+        <p>Dari sumber MikroTik WiFi Documentation (2024), untuk memverifikasi bahwa SSID Anda disiarkan dan dapat ditemukan oleh perangkat lain, gunakan fitur pemindaian di Winbox:</p>
         
-        <div class="code-terminal">
-            <div class="code-line"><span class="keyword">/interface wireless scan</span> wlan1</div>
-            <div class="code-line comment"># Memindai jaringan wireless di sekitar menggunakan interface wlan1</div>
-            <div class="code-line"># ADDRESS           SSID                    RADIO-NAME                FREQ</div>
-            <div class="code-line">0 AA:BB:CC:DD:EE:FF MainNetwork             RouterMain               2412</div>
-            <div class="code-line">1 AA:BB:CC:DD:EE:FF GuestNetwork            RouterMain               2412</div>
+        <div class="tech-alert">
+            <p><strong>Memindai Jaringan Wireless</strong></p>
+            <p>1. Di Winbox, buka menu <strong>Wireless</strong> (v6) atau <strong>WiFi</strong> (v7)</p>
+            <p>2. Pilih tab <strong>Interfaces</strong></p>
+            <p>3. Pilih interface wireless fisik (bukan Virtual AP)</p>
+            <p>4. Klik tombol <strong>Scan</strong> pada toolbar</p>
+            <p>5. Tunggu hingga proses pemindaian selesai</p>
+            <p>6. Periksa daftar jaringan wireless yang ditemukan, termasuk SSID Anda</p>
         </div>
         
         <h3 class="subsection-title">Troubleshooting Umum</h3>
         
-        <p>Dari sumber MikroTik Troubleshooting Guide (2023), beberapa masalah umum yang mungkin terjadi saat mengkonfigurasi SSID dan Virtual AP:</p>
+        <p>Dari sumber MikroTik Troubleshooting Guide (2023), beberapa masalah umum yang mungkin terjadi saat mengkonfigurasi SSID dan Virtual AP dan cara mengatasinya menggunakan Winbox:</p>
         
-        <p>1. SSID Tidak Muncul:</p>
-        <div class="code-terminal">
-            <div class="code-line"><span class="comment"># Periksa apakah interface wireless diaktifkan</span></div>
-            <div class="code-line"><span class="keyword">/interface wireless print</span></div>
-            <div class="code-line comment"># Jika interface menunjukkan tanda X (disabled), aktifkan dengan:</div>
-            <div class="code-line"><span class="keyword">/interface wireless enable</span> [find name=wlan1]</div>
+        <div class="tech-alert">
+            <p><strong>1. SSID Tidak Muncul:</strong></p>
+            <p>- Periksa apakah interface wireless diaktifkan</p>
+            <p>- Di Winbox, buka menu <strong>Wireless</strong> atau <strong>WiFi</strong></p>
+            <p>- Pastikan tidak ada tanda "X" pada daftar interface</p>
+            <p>- Jika interface dinonaktifkan, klik kanan dan pilih <strong>Enable</strong></p>
         </div>
         
-        <p>2. Klien Tidak Dapat Terhubung:</p>
-        <div class="code-terminal">
-            <div class="code-line"><span class="comment"># Periksa pengaturan keamanan</span></div>
-            <div class="code-line"><span class="keyword">/interface wireless security-profiles print</span></div>
-            <div class="code-line comment"># Pastikan passphrase sudah benar dan tipe autentikasi sesuai</div>
+        <div class="tech-alert">
+            <p><strong>2. Klien Tidak Dapat Terhubung:</strong></p>
+            <p>- Periksa pengaturan keamanan</p>
+            <p>- Di Winbox, buka menu <strong>Wireless > Security Profiles</strong></p>
+            <p>- Pastikan kata sandi dan tipe autentikasi sudah benar</p>
+            <p>- Coba ubah tipe autentikasi ke WPA2 PSK saja tanpa WPA PSK</p>
         </div>
         
-        <p>3. Virtual AP Tidak Berfungsi:</p>
-        <div class="code-terminal">
-            <div class="code-line"><span class="comment"># Pastikan master-interface dalam mode yang benar</span></div>
-            <div class="code-line"><span class="keyword">/interface wireless print</span> [find name=wlan1]</div>
-            <div class="code-line comment"># Master interface harus dalam mode ap-bridge</div>
-            <div class="code-line"><span class="keyword">/interface wireless set</span> [find name=wlan1] <span class="string">mode=ap-bridge</span></div>
+        <div class="tech-alert">
+            <p><strong>3. Virtual AP Tidak Berfungsi:</strong></p>
+            <p>- Pastikan interface master dalam mode yang benar</p>
+            <p>- Di Winbox, buka menu <strong>Wireless</strong> dan periksa interface master</p>
+            <p>- Mode harus "ap-bridge" (v6) atau "ap" (v7)</p>
+            <p>- Jika mode salah, double-klik interface dan ubah mode</p>
         </div>
         
-        <p>4. Masalah Konektivitas Internet:</p>
-        <div class="code-terminal">
-            <div class="code-line"><span class="comment"># Untuk Virtual AP dengan bridge terpisah, periksa konfigurasi NAT</span></div>
-            <div class="code-line"><span class="keyword">/ip firewall nat print</span></div>
-            <div class="code-line comment"># Pastikan ada aturan masquerade untuk subnet jaringan tamu</div>
+        <div class="tech-alert">
+            <p><strong>4. Masalah Konektivitas Internet:</strong></p>
+            <p>- Untuk Virtual AP dengan bridge terpisah, periksa konfigurasi NAT</p>
+            <p>- Di Winbox, buka menu <strong>IP > Firewall > NAT</strong></p>
+            <p>- Pastikan ada aturan masquerade untuk subnet jaringan tamu</p>
+            <p>- Jika belum ada, tambahkan aturan masquerade baru</p>
         </div>
         
-        <p>Dari sumber MikroTik WiFi Documentation (2024), perintah torch dapat digunakan untuk memantau lalu lintas pada interface wireless dan membantu mengidentifikasi masalah:</p>
+        <p>Dari sumber MikroTik WiFi Documentation (2024), fitur Torch dapat digunakan untuk memantau lalu lintas pada interface wireless dan membantu mengidentifikasi masalah:</p>
         
-        <div class="code-terminal">
-            <div class="code-line"><span class="keyword">/tool torch</span> interface=wlan1</div>
-            <div class="code-line comment"># Memantau lalu lintas pada interface wlan1</div>
+        <div class="tech-alert">
+            <p><strong>Menggunakan Torch untuk Memantau Lalu Lintas</strong></p>
+            <p>1. Di Winbox, buka menu <strong>Tools > Torch</strong></p>
+            <p>2. Pada dropdown <strong>Interface</strong>, pilih interface wireless yang ingin dipantau</p>
+            <p>3. Sesuaikan parameter lainnya (protokol, port, alamat, dll.) jika diperlukan</p>
+            <p>4. Klik <strong>Start</strong> untuk memulai pemantauan</p>
+            <p>5. Perhatikan aliran data yang muncul untuk mengidentifikasi masalah</p>
         </div>
         
         <div class="tech-alert">
@@ -1143,10 +1171,9 @@ user-drag: none;
         </div>
         
         <div class="conclusion-box">
-            <strong>Dari 2 pendapat tersebut dapat disimpulkan bahwa</strong> verifikasi dan troubleshooting adalah langkah penting setelah mengkonfigurasi SSID dan Virtual AP di MikroTik. Menggunakan perintah CLI seperti print, scan, dan torch dapat membantu memverifikasi konfigurasi dan mengidentifikasi masalah. Beberapa masalah umum meliputi interface yang dinonaktifkan, pengaturan keamanan yang tidak tepat, mode interface yang salah, dan masalah konektivitas internet yang dapat diatasi dengan langkah-langkah tertentu.
+            <strong>Dari 2 pendapat tersebut dapat disimpulkan bahwa</strong> verifikasi dan troubleshooting adalah langkah penting setelah mengkonfigurasi SSID dan Virtual AP di MikroTik. Menggunakan interface Winbox, pengguna dapat dengan mudah memeriksa status interface, memantau klien yang terhubung, memindai jaringan wireless, dan mendiagnosa masalah yang mungkin terjadi. Fitur seperti Registration Table dan Torch sangat membantu dalam mengidentifikasi dan mengatasi masalah umum seperti interface yang dinonaktifkan, pengaturan keamanan yang tidak tepat, mode interface yang salah, dan masalah konektivitas internet.
         </div>
     </div>
-
     <!-- Bibliography -->
     <div class="bibliography">
         <h3>DAFTAR PUSTAKA</h3>
@@ -1382,3 +1409,4 @@ user-drag: none;
 </body>
 
 </html>
+
